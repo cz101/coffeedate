@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head >
+    <title>User register</title>
+  </head>
+  <body>
+    <div class="user register form">
+      <h2>Welcom to Coffee Date</h2>
+        <form id="registerform" action="/backend/coffeerDateRegister.js" method="post">
+         
+            <div>
+              <label >First Name</label>
+              <input type="text" title="firstName" id='firstName' placeholder="First Name" />
+            </div>
+            <div>
+              <label >Last Name</label> 
+              <input type="text" title="lastName" id='lastName' placeholder="Last Name" />
+            </div>
+            <div>
+              <label >Email Adress</label> 
+              <input type="text" title="email" id='email' placeholder="Your Email" />
+            </div>
+            <div>
+              <label for ='gender'>Gender</label> 
+              <select id="gender" name="gender">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            </div>
+            <div>
+              <label for="department">Department You@:</label>
+              <select id="department" name="department">
+                <option value="Administration">Administration</option>
+                <option value="Consulting">Consulting</option>
+                <option value="Finance">Finance</option>
+                <option value="HR">Human Resouces</option>
+                <option value="Software">Software</option>
+                <option value="Mangement">Mangement</option>
+              </select>
+            </div>
+            <div>
+              <label for="teams">Current Team(Project) You@:</label>
+              <select id="team" name="teams">
+                <option value="TEP">TEP</option>
+                <option value="TORO">TORO</option>
+                <option value="Demand">Demand</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div>
+              <label for="city">Location  You@:</label>
+              <select id="city" name="city">
+                <option value="Berlin">Berlin</option>
+                <option value="Munich">Munich</option>
+                <option value="Hamburg">Hamburg</option>
+              </select>
+            </div>
+            <label >Option one</label> 
+            <div>
+              <label >AvailableDay</label> 
+              <input type="date" title="availableDate" id='availableDate' />
+              <label >Date Begins </label> 
+              <input type="time" title="optionOneStart" id='optionOneStart' />
+              <label >Date Ends </label> 
+              <input type="time" title="optionOneEnd" id='optionOneEnd' />
+           
+            </div>
+            </div>
+            <label >Option two</label> 
+            <div>
+              <label >AvailableDay</label> 
+              <input type="date" title="availableDate" id='availableDate' />
+              <label >Date Begins </label> 
+              <input type="time" title="optionTwoStart" id='optionTwoStart' />
+              <label >Date Ends </label> 
+              <input type="time" title="optiontwoEnd" id='optiontwoEnd' />
+            </div>
+             <button type="text"  id="register" onclick=""> register</button>
+      </form>
+    </div>
+  </body>
+</html>
