@@ -27,14 +27,7 @@ const server = http.createServer( function(req, res) {
         res.end()
         
      })
-    form.addListener("submit",  (event) => {
-      // stop form submission
-      event.preventDefault();
-     // console.log("here I am ")
-      const data = new FormData(event.target);
-      const dataObject = Object.fromEntries(data.entries());
-      console.log(dataObject);
-  })}
+  }
   else if (req.method.toLowerCase() ==='get'){
     res.writeHead( 200, {'Content-Type':'text/html'})
     fs.readFile('frontend/userregister.html', function(error , html){
@@ -74,11 +67,3 @@ server.listen(port, function(error) {
    }
 })
 
-// fs.readFile('backend/index.html', function (error,html){
-//    if (error) throw error;
-//    http.createServer(function(req,res){
-//     res.writeHead(200,{'Content-Type':'text/html'});
-//     res.write(html);
-//     res.end()
-//    }).listen(port)
-// })
