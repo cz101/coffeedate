@@ -1,4 +1,16 @@
 
+
+function registerUser() {
+  const form = document.getElementById("registerform");
+    form.addEventListener("submit",  (event) => {
+      // stop form submission
+      event.preventDefault();
+     // console.log("here I am ")
+      const data = new FormData(event.target);
+      const dataObject = Object.fromEntries(data.entries());
+      console.log(dataObject);
+})}
+
 // // insert the data to the table 
 // require('dotenv').config();
 
@@ -93,13 +105,4 @@
 //const form = document.getElementById('registerform');
 
 //https://www.codementor.io/@ziad-saab/let-s-code-a-web-server-from-scratch-with-nodejs-streams-h4uc9utji
-function registerUser() {
-  const form = document.getElementById("registerform");
-    form.addEventListener("submit",  (event) => {
-      // stop form submission
-      event.preventDefault();
-     // console.log("here I am ")
-      const data = new FormData(event.target);
-      const dataObject = Object.fromEntries(data.entries());
-      console.log(dataObject);
-})}
+
