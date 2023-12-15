@@ -2,10 +2,13 @@ const http = require ('http')
 const fs= require('fs')
 const url = require('url')
 const util= require('util')
+
 const StringDecoder = require('string_decoder').StringDecoder // dealing the request as data object
+require('dotenv').config();
+// import connectdb from './databaseconnector'
+// //require (connectdb) from './databaseconnector';
 
 const formidable = require ('formidable') // dealing the request data format in
-const { stringify } = require('querystring')
 
 const port = 3000
 const server = http.createServer( function (req, res)  {
@@ -13,7 +16,7 @@ const server = http.createServer( function (req, res)  {
   let parsedURL = url.parse(req.url, true);
   let path = parsedURL.pathname;
   path = path.replace(/^\/+|\/+$/g, "");
-   // console.log(path)
+  // console.log(path)
 
   let qs = parsedURL.query;
   let headers = req.headers;
@@ -22,11 +25,10 @@ const server = http.createServer( function (req, res)  {
 
 
  // req.on("data", function() {
-    console.log("got some data : ");    
-  //  buffer += decoder.write(incomingdata)
+  console.log("got some data : ");    
   if (req.method.toLowerCase() ==='get'){
     res.writeHead( 200, {'Content-Type':'text/html'})
-    fs.readFile('user/userregister.html', (error , html)=>{
+    fs.readFile('user/userregister.html', (error, html)=>{
       if(error){
         res.writeHead(404)
         res.write('Error : File Not Found')
@@ -36,10 +38,8 @@ const server = http.createServer( function (req, res)  {
       }
       res.end()
     })}
-   else if(req.method.toLowerCase()==='post'){
-
+  else if(req.method.toLowerCase()==='post'){
       let form =  new formidable.IncomingForm()
-    
       form.parse(req, function (error, fields, files){
           if(error){
              console.log(error.messge)
@@ -47,14 +47,14 @@ const server = http.createServer( function (req, res)  {
           }
           res.writeHead(200, {'Content-Type':'text/plain'})
           //console.log(util.inspect({fields:fields[lastName],files:files}))
-          console.log("------------------------\n" )
-          console.log("----------------formdata------------------->" + stringify(form)+'\n\n')
-          console.log("-------------------------\n" )
-          let info = {
-              "firstName": fields['firstName']}
-           console.log(info)   
-         res.end(util.inspect({fields:fields,files:files}))
-        //res.end()
+          // let payload =  JSON.parse(JSON.stringify(fields))
+        // console.log(regUser(JSON.parse(JSON.stringify(fields))))
+        //  connectdb();
+      
+        addUser(JSON.parse(JSON.stringify(fields)))
+         //res.end(util.inspect({fields:fields,files:files}))
+         res.write("done with regisgter");
+          res.end()
        })
     }
 
@@ -85,7 +85,14 @@ server.listen(port, (error)=>{
    }
 })
 
-
+ function regUser(payload){
+  let user = new Map()
+  for (const [key, value] of Object.entries(payload)) {
+    //   console.log(`${key}: ${value}`);
+    user.set(`${key}`, `${value}`) 
+     }
+  return user ;
+ }
 
 // const routes ={
 //   'adminuser/admin': function(data,res){
@@ -163,44 +170,40 @@ server.listen(port, (error)=>{
 //     res.end("\n");
 //   }
 // }
+ async function addUser(  payload ) {
 
 
+  const {MongoClient} = require('mongodb');
+  const dbuser = process.env.dbusername;
+  const password = process.env.dbpassword;
+  const connectionStr = `mongodb+srv://${dbuser}:${password}@cluster0.ups2ujp.mongodb.net/`;
+  const client = new MongoClient(connectionStr);
+  const dbName = "coffeedateuser";
 
- /*
-  if(req.method.toLowerCase()==='post'){
+  let user = new Map()
+  for (const [key, value] of Object.entries(payload)) {
+    //   console.log(`${key}: ${value}`);
+    user.set(`${key}`, `${value}`) 
+     }
 
-    let form =  new formidable.IncomingForm()
-   // console.log(stringify(form))
-    form.parse(req, (error, fields, files)=>{
-        if(error){
-           console.log(error.messge)
-           return ;
-        }
-        res.writeHead(200, {'Content-Type':'text/plain'})
-        //console.log(util.inspect({fields:fields[lastName],files:files}))
 
-        let info = {
-            "firstName": fields['firstName']}
-         console.log(info)   
-       res.end(util.inspect({fields:fields,files:files}))
-      //res.end()
-     })
+  try {
+      // Connect to the MongoDB cluster
+
+      const db = client.db(dbName);
+      const col = db.collection("user");
+      const p = await col.insertOne(user);
+      const filter = { "name.last": "Zeng" };
+      const document = await col.findOne(filter);
+      console.log("Document found:\n" + JSON.stringify(document));
+
+       //db = connect (mongodb+srv://${dbuser}:${password}@cluster0.ups2ujp.mongodb.net/)
+      // Make the appropriate DB calls
+
+
+  } catch (e) {
+      console.error(e);
+  } finally {
+      await client.close();
   }
-  else if (req.method.toLowerCase() ==='get'){
-    res.writeHead( 200, {'Content-Type':'text/html'})
-    fs.readFile('frontend/userregister.html', (error , html)=>{
-      if(error){
-        res.writeHead(404)
-        res.write('Error : File Not Found')
-      }
-      else{
-        res.write(html)
-      }
-      res.end()
-    })
-
-  }
-  else {
-    console.log("handle it later //") //todo
-  }
-  */ 
+}
