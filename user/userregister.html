@@ -2,7 +2,7 @@
 <html>
   <head >
     <title>User register</title>
-    <link rel="stylesheet" type="text/css" href="/css/userregister.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="/css/userregister.css" /> -->
   </head>
   <body>
   
@@ -22,79 +22,65 @@
               <td><label>Email Adress</label><td>
               <td><input type="text" name="email" id='email' placeholder="Your Email" /> </td>  
           </tr>
-
           <tr>
             <td> <label for ='gender'>Gender</label><td>
-            <td>      <select id="gender" name="gender">
+            <td> <select id="gender" name="gender">
               <option value="M">Male</option>
               <option value="F">Female</option>
-            </select> </td>  
+              </select> 
+          </td>  
           </tr>
+ 
           <tr>
-            <td><label>Email Adress</label><td>
-            <td><input type="text" name="email" id='email' placeholder="Your Email" /> </td>  
-        </tr>
-
-
-        </table>
-
-        
-          <div>
-            <label for ='gender'>Gender</label> 
-            <select id="gender" name="gender">
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-            </select>
-          </div>
-          <div>
-            <label for="department">Department You@:</label>
-            <select id="department" name="department">
+            <td><label for="department">Department You@:</label><td>
+            <td><select id="department" name="department">
               <option value="Administration">Administration</option>
               <option value="Consulting">Consulting</option>
               <option value="Finance">Finance</option>
               <option value="HR">Human Resouces</option>
               <option value="Software">Software</option>
               <option value="Mangement">Mangement</option>
-            </select>
-          </div>
-          <div>
-            <label for="teams">Current Team(Project) You@:</label>
-            <select id="team" name="teams">
+            </select></td>  
+          </tr>
+          <tr>
+            <td><label for="team">Current Team(Project) You@:</label><td>
+            <td><select id="team" name="teams">
               <option value="TEP">TEP</option>
               <option value="TORO">TORO</option>
               <option value="Demand">Demand</option>
               <option value="Others">Others</option>
-            </select>
-          </div>
-          <div>
-            <label for="city">Location  You@:</label>
-            <select id="city" name="city">
+            </select></td>  
+          </tr>
+
+          <tr>
+            <td> <label for="city">Location  You@:</label><td>
+            <td><select id="city" name="city">
               <option value="Berlin">Berlin</option>
               <option value="Munich">Munich</option>
               <option value="Hamburg">Hamburg</option>
-            </select>
-          </div>
-          <label >Option one</label> 
-          <div>
-            <label >AvailableDay</label> 
-            <input type="date" title="availableDate" id='availableDate' />
-            <label >Date Begins </label> 
-            <input type="time" title="optionOneStart" id='optionOneStart' />
-            <label >Date Ends </label> 
-            <input type="time" title="optionOneEnd" id='optionOneEnd' />
-         
-          </div>
-          </div>
-          <label >Option two</label> 
-          <div>
-            <label >AvailableDay</label> 
-            <input type="date" title="availableDate" id='availableDate' />
-            <label >Date Begins </label> 
-            <input type="time" title="optionTwoStart" id='optionTwoStart' />
-            <label >Date Ends </label> 
-            <input type="time" title="optiontwoEnd" id='optiontwoEnd' />
-          </div>
-          <button  type="submit"  name="register"> register</button>
+            </select></td>  
+          </tr>
+
+          <tr>
+            <td><label >Option one</label><td>        
+            <td>
+                <input type="date" title="availableDate" id='availableDate'/>
+            </td>
+             <td>
+                 <label >Date Begins </label>        
+                 <input type="time" title="optionOneStart" id='optionOneStart'/>
+            </td>
+            <td> 
+              <label >Date Ends </label> 
+              <input type="time" title="optionOneEnd" id='optionOneEnd' />
+            </td>  
+          </tr>
+        
+          <tr>
+            <td><button  type="submit"  name="register"> register</button> <td>
+      
+          </tr>
+        </table>
         <!-- <button  type="submit"  name="register" onClick="registerUser()" > register</button> -->
         <script type="javascript" src="test.js"></script>
         <!-- <script>

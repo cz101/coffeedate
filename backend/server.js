@@ -3,7 +3,7 @@ const fs= require('fs')
 const url = require('url')
 const util= require('util')
 
-const StringDecoder = require('string_decoder').StringDecoder // dealing the request as data object
+//const StringDecoder = require('string_decoder').StringDecoder // dealing the request as data object
 require('dotenv').config();
 // import connectdb from './databaseconnector'
 // //require (connectdb) from './databaseconnector';
@@ -11,22 +11,34 @@ require('dotenv').config();
 const formidable = require ('formidable') // dealing the request data format in
 
 const port = 3000
-const server = http.createServer( function (req, res)  {
+const server = http.createServer((req, res) =>{
 
   let parsedURL = url.parse(req.url, true);
   let path = parsedURL.pathname;
   path = path.replace(/^\/+|\/+$/g, "");
-  // console.log(path)
+  console.log(path)
 
-  let qs = parsedURL.query;
-  let headers = req.headers;
-  let method = req.method.toLowerCase();
-  let decoder = new StringDecoder('utf-8')
+  // let qs = parsedURL.query;
+  // let headers = req.headers;
+  // let method = req.method.toLowerCase();
+  // let decoder = new StringDecoder('utf-8')
 
 
  // req.on("data", function() {
   console.log("got some data : ");    
-  if (req.method.toLowerCase() ==='get'){
+  if (req.method.toLowerCase() ==='get' && path ==="user/adminuser"){
+      res.writeHead(200, {'Content-Type':'text/html'})
+      fs.readFile('user/adminuser/admin.html', (error, html)=>{
+        if(error){
+          res.writeHead(404)
+          res.write('Error : File Not Found'+error)
+        }
+        else{
+          res.write(html)
+        }
+        res.end()
+      })}
+    else if (req.method.toLowerCase() ==='get' && path ==="user/userregister"){
     res.writeHead( 200, {'Content-Type':'text/html'})
     fs.readFile('user/userregister.html', (error, html)=>{
       if(error){
@@ -34,6 +46,7 @@ const server = http.createServer( function (req, res)  {
         res.write('Error : File Not Found')
       }
       else{
+
         res.write(html)
       }
       res.end()
@@ -54,7 +67,7 @@ const server = http.createServer( function (req, res)  {
         addUser(JSON.parse(JSON.stringify(fields)))
          //res.end(util.inspect({fields:fields,files:files}))
          res.write("done with regisgter");
-          res.end()
+         res.end()
        })
     }
 
@@ -88,7 +101,7 @@ server.listen(port, (error)=>{
  function regUser(payload){
   let user = new Map()
   for (const [key, value] of Object.entries(payload)) {
-    //   console.log(`${key}: ${value}`);
+    // console.log(`${key}: ${value}`);
     user.set(`${key}`, `${value}`) 
      }
   return user ;
@@ -182,7 +195,7 @@ server.listen(port, (error)=>{
 
   let user = new Map()
   for (const [key, value] of Object.entries(payload)) {
-    //   console.log(`${key}: ${value}`);
+       console.log(`${key}: ${value}`);
     user.set(`${key}`, `${value}`) 
      }
 
@@ -193,7 +206,7 @@ server.listen(port, (error)=>{
       const db = client.db(dbName);
       const col = db.collection("user");
       const p = await col.insertOne(user);
-      const filter = { "name.last": "Zeng" };
+      const filter = { "lastName": "Zeng" };
       const document = await col.findOne(filter);
       console.log("Document found:\n" + JSON.stringify(document));
 
