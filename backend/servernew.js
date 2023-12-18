@@ -1,7 +1,8 @@
 const http = require ('http')
 const {getAllUsers, getUserById,createrUser} = require('../backend/controller/userController')
 const fs= require('fs')
-const url = require('url')
+//const url = require('url')
+const formidable = require ('formidable') // dealing the request data format in
 
 const server = http.createServer((req ,res)=>{
 
@@ -38,14 +39,30 @@ const server = http.createServer((req ,res)=>{
         }
         res.end()
       })}
- 
+  }
+  else if (req.url ==="/user/userregister"&& req.method.toLowerCase() ==='post'){
 
-    }
 
+     let form =  new formidable.IncomingForm()
+    // console.log (form)
+    // form.parse(req,  function (error, fields, files){
+    //     if(error){
+    //        console.log(error.messge)
+    //        return ;
+    //     }
+    //     res.writeHead(200, {'Content-Type':'text/plain'})
+    //     let payload =  JSON.parse(JSON.stringify(fields))
+    //  //   const newUser =  Users.create(payload)
+    //     res.write("done with regisgter");
+    //     return res.end()
+    //   })
+
+     createrUser(req,res ,form)
+   }
 })
 
 const port = process.env.port || 5001
 
-server.listen(port, ()=> console.log(`serve is running on the port : ${port}`))
+server.listen(port, ()=> console.log(`server is running on the port : ${port}`))
 
 //module.exports = server;

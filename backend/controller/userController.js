@@ -1,5 +1,6 @@
 const Users = require('../models/userModel')
 const formidable = require ('formidable') // dealing the request data format in
+
 const fs= require('fs')
 
 async function getAllUsers(req,res){
@@ -36,7 +37,7 @@ async function getUserById(req,res, id){
     }
     else {
     res.writeHead(200, {'Content-Type':'text/html'})
-    fs.readFile('user/userprofile.html', (error, html)=>{
+    fs.readFile('/user/userprofile.html', (error, html)=>{
       if(error){
         res.writeHead(404)
         res.write('Error : File Not Found'+error)
@@ -55,48 +56,40 @@ async function getUserById(req,res, id){
 }
 // create a user 
 
-async function createrUser(req,res){
+async function createrUser(req, res, form){
   try {
-     const userInfo = {
-      firstname: "t",
-      lasttname: "t",
-      email: "test@t.com",
-     }
- 
-     let form =  new formidable.IncomingForm()
-     console.log (form)
-     form.parse(req, await function (error, fields, files){
+  
+     form.parse(req,   async function (error, fields, files){
          if(error){
             console.log(error.messge)
             return ;
          }
-        // res.writeHead(200, {'Content-Type':'text/plain'})
-         res.writeHead(200, {'Content-Type':'application/json'})
-         //console.log(util.inspect({fields:fields[lastName],files:files}))
-          let payload =  JSON.parse(JSON.stringify(fields))
-       // console.log(regUser(JSON.parse(JSON.stringify(fields))))
-       //  connectdb();
-       const newUser =  Users.create(payload)
-       //addUser(JSON.parse(JSON.stringify(fields)))
-        //res.end(util.inspect({fields:fields,files:files}))
-        res.write("done with regisgter");
-        res.writeHead(200, {'Content-Type':'application/json'})
+         console.log(JSON.stringify(fields))
+
+        let reguser= checkinput(fields)
+        const newUser =  await Users.create(fields)
+        res.writeHead(200,{'Content-Type': 'application/json'})
+        res.write("done with regisgter\n");
         return res.end(JSON.stringify(newUser))
-      })
-
+         })
 
   
-  
-    res.writeHead(200, {'Content-Type':'application/json'})
-    return res.end(JSON.stringify(newUser))
 
   }
   catch(error){
-    console.log("There is an error on get users"+(error))
+    console.log("There is an error add the user"+(error))
   }
 
 }
 
+function checkinput (payload){
+  let user = new Map()
+  for (const [key, value] of Object.entries(payload)) {
+    console.log(`${key}: ${value}`);
+   // user.set(`${key}`, `${value}`) 
+     }
+  return user ;
+ }
 module.exports = {
   getAllUsers,
   getUserById,

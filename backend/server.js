@@ -53,6 +53,7 @@ const server = http.createServer((req, res) =>{
     })}
   else if(req.method.toLowerCase()==='post'){
       let form =  new formidable.IncomingForm()
+      console.log(form)
       form.parse(req, function (error, fields, files){
           if(error){
              console.log(error.messge)
@@ -64,10 +65,10 @@ const server = http.createServer((req, res) =>{
         // console.log(regUser(JSON.parse(JSON.stringify(fields))))
         //  connectdb();
       
-        addUser(JSON.parse(JSON.stringify(fields)))
-         //res.end(util.inspect({fields:fields,files:files}))
-         res.write("done with regisgter");
-         res.end()
+       // addUser(JSON.parse(JSON.stringify(fields)))
+         res.end(util.inspect({fields:fields,files:files}))
+        //  res.write("done with regisgter");
+        //  res.end()
        })
     }
 
