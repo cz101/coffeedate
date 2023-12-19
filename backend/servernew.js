@@ -1,19 +1,16 @@
 const http = require ('http')
-const {getAllUsers, getUserById,createrUser} = require('../backend/controller/userController')
+const {getAllUsers, getUserById, createrUser,createNewUser} = require('../backend/controller/userController')
 const fs= require('fs')
-//const url = require('url')
 const formidable = require ('formidable') // dealing the request data format in
+const user= require('./data/users')
 
 const server = http.createServer((req ,res)=>{
+  // res.writeHead(200,{'Content-Type': 'application/json'})
+  // res.end(JSON.stringify(user));
 
-  console.log(req.url)
-  // let parsedURL = url.parse(req.url, true);
-  // let path = parsedURL.pathname;
-  // path = path.replace(/^\/+|\/+$/g, "");
-  // console.log(path)
+  //to do routing 
 
-  if (req.url && req.method.toLowerCase() ==='get')
-  {
+  if (req.url && req.method.toLowerCase() ==='get'){
    if (req.url ==="/user/adminuser")
     {
         getAllUsers(req,res)
@@ -21,12 +18,11 @@ const server = http.createServer((req ,res)=>{
     else if (req.url.match(/\/user\/employee\/([0-9]+)/)){
       {
          const id = req.url.split('/')[3]
-         console.log(id)
          getUserById(req,res,id)
       }
     }
-   else if ( req.url ==="/user/userregister"&& req.method.toLowerCase() ==='get'){
-    console.log('im in register')
+    else if ( req.url ==="/user/userregister"&& req.method.toLowerCase() ==='get'){
+
       res.writeHead( 200, {'Content-Type':'text/html'})
       fs.readFile('user/userregister.html', (error, html)=>{
         if(error){
@@ -39,26 +35,34 @@ const server = http.createServer((req ,res)=>{
         }
         res.end()
       })}
-  }
-  else if (req.url ==="/user/userregister"&& req.method.toLowerCase() ==='post'){
+      else if (req.url ==="/backend/data/"&& req.method.toLowerCase() ==='get')
+      {
+           res.writeHead(200,{'Content-Type': 'application/json'})
+            res.end(JSON.stringify(user));
+      }
+  } //end of get 
+  else if (req.url ==="user/userregister"&& req.method.toLowerCase() ==='post'){
 
-
-     let form =  new formidable.IncomingForm()
-    // console.log (form)
-    // form.parse(req,  function (error, fields, files){
-    //     if(error){
-    //        console.log(error.messge)
-    //        return ;
-    //     }
-    //     res.writeHead(200, {'Content-Type':'text/plain'})
-    //     let payload =  JSON.parse(JSON.stringify(fields))
-    //  //   const newUser =  Users.create(payload)
-    //     res.write("done with regisgter");
-    //     return res.end()
-    //   })
-
-     createrUser(req,res ,form)
+     //let form =  new formidable.IncomingForm()
+     //createrUser(req,res,form)
+     createNewUser(req,res)
    }
+//   else if (req.url === '/user/css/adminuser.css'&& req.method.toLowerCase() ==='get') {
+//     fs.readFile('/user/css/adminuser.css', 
+//     function(error, page) { 
+//       if(error){
+//         res.writeHead(404)
+//         res.write('Error : File Not Found'+ error)
+//       }
+//       else{
+//         res.writeHead(200, {'Content-Type': 'text/css'}); 
+//         res.write(page); 
+//         //res.end()
+//    }
+//    res.end()
+//   }); 
+//  } 
+
 })
 
 const port = process.env.port || 5001

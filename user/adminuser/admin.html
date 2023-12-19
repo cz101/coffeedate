@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>Admin </title>
-    <!-- <link rel="stylesheet" type="text/css" href="adminuser.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="/user/css/adminuser.css" /> -->
   </head>
   <body>
 
@@ -23,16 +23,22 @@
                     <th>Firstname</th>
                     <th>LastName</th>
                     <th>Email</th>
+                    <p id="adminuser"></p>
                   </tr>
-                  <tr>
-                    <td>`${firstName}`</td>
-                    <td>`${LastName}`</td>
-                    <td>`${Email}`</td>
-                  </tr>
-       
+                  <script>
+                    // fetch('http://localhost:5001/backend/data/.json')
+                    //  .then((response) =>  response.json());
+                    fetch("http://localhost:5001/backend/data/", {method: "GET"})
+                        .then(res => res.text())
+                        .then(text => {
+                          
+                          const adminuser = text;
+                          document.getElementById('adminuser').innerHTML = adminuser;
+                          console.log("Request complete! response:",text);
+});
+                    console.log("Im in admin page")
 
-
-          </p>
+                </script>
         </section>
 
         <footer>
