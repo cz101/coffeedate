@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <title>Admin </title>
-    <!-- <link rel="stylesheet" type="text/css" href="/user/css/adminuser.css" /> -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/user/css/adminuser.css" />
   </head>
   <body>
 
@@ -18,25 +19,59 @@
               <li><a href="#">feature3</a></li>
             </ul>
           </nav>
-          <p>
-                  <tr>
-                    <th>Firstname</th>
-                    <th>LastName</th>
-                    <th>Email</th>
-                    <p id="adminuser"></p>
-                  </tr>
+
+          <table  class="table table-bordered table-sm" >
+            <thead>
+              <tr>
+                <th>UserID</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+            </thead>
+            <tbody id="allRegUsers">
+            </tbody>
+          </table>
+      
+          <!-- <p id="adminuser"></p> -->
+        </tr>
                   <script>
-                    // fetch('http://localhost:5001/backend/data/.json')
-                    //  .then((response) =>  response.json());
-                    fetch("http://localhost:5001/backend/data/", {method: "GET"})
+
+                    //await
+                     fetch("http://localhost:5001/backend/data/", {method: "GET"})
                         .then(res => res.text())
                         .then(text => {
+                        //console.log("Request complete! response:",text);
+                          const allRegUsers = JSON.parse(text); 
+          
+                        //  for (let i =0 ;i<allRegUsers.length; i++) 
+                        //   for (const [key, value] of Object.entries(allRegUsers[i])) {
+                        //         console.log(`${key}: ${value}`);
+                        //       }
                           
-                          const adminuser = text;
-                          document.getElementById('adminuser').innerHTML = adminuser;
-                          console.log("Request complete! response:",text);
+                          console.log(allRegUsers)
+
+                       const table = document.getElementById("allRegUsers");
+                          allRegUsers.map(user =>{
+                            let row = table.insertRow();
+                            let id=  row.insertCell(0);
+                            id.innerHTML= user.id
+                            let firstName = row.insertCell(1);
+                            firstName.innerHTML = user.firstName;
+                            let lastName = row.insertCell(2);
+                            lastName.innerHTML = user.lastName;
+                            let email = row.insertCell(3);
+                            email.innerHTML = user.email;
+                          })
+
+                          // allRegUsers.map(user =>{         
+                          //       var rowNode = document.createElement("tr");
+                          //       var cellNode = document.createElement("td");
+                          //       var textNode = document.createTextNode(user.id + '\t'+ user.firstName +'\t'+user.lastName+'\t'+user.email);
+                          //       cellNode.appendChild(textNode)
+                          //       rowNode.appendChild(cellNode);
+                          //       table.appendChild(rowNode)
+                          //     })
 });
-                    console.log("Im in admin page")
 
                 </script>
         </section>
