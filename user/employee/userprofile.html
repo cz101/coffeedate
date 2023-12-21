@@ -3,7 +3,7 @@
   <head>
     <title>user profile</title>
     <link rel="stylesheet" type="text/css" href="/user/css/userprofile.css" />
-
+    <script type="text/javascript" src="/backend/retriveuser.js">retrive()</script>
   </head>
   <body>
 
@@ -37,65 +37,8 @@
         <footer>
           <p>Footer</p>
         </footer>
-
-
         <script>
- fetch("http://localhost:5001/backend/data/", {method: "GET"})
-                        .then(res => res.text())
-                        .then(text => {
-                        // console.log("Request complete! response:",text);
-                          const allRegUsers = JSON.parse(text); 
-                          const table = document.getElementById("coffeedate");
-
-                        //  for (let i =0 ;i<allRegUsers.length; i++) 
-                        //   {for (const [key, value] of Object.entries(allRegUsers[i])) {
-                        //         //console.log(`${key}: ${value}`);
-                        //        if (key ==="firstName" && value==='Chao'){
-
-                        //         console.log('HERE')
-                        //           // let row = table.insertRow();
-                        //           // let id=  row.insertCell(0);
-                        //           // id.innerHTML= allRegUsers[i].id
-                        //           // let firstName = row.insertCell(1);
-                        //           // firstName.innerHTML = allRegUsers[i].firstName;
-                        //           // let lastName = row.insertCell(2);
-                        //           // lastName.innerHTML = allRegUsers[i].lastName;
-                        //           // let email = row.insertCell(3);
-                        //           // email.innerHTML = allRegUsers[i].email;
-
-                        //         }
-                        //        }
-                        //     }
-                        // //  console.log(allRegUsers)
-
-                  
-                          allRegUsers.map(user =>{
-                             console.log(user.firstName)
-                            if (user.firstName==="test1"){
-                          
-                            let row = table.insertRow();
-                            let id=  row.insertCell(0);
-                            id.innerHTML= user.id
-                            let firstName = row.insertCell(1);
-                            firstName.innerHTML = user.firstName;
-                            let lastName = row.insertCell(2);
-                            lastName.innerHTML = user.lastName;
-                            let email = row.insertCell(3);
-                            email.innerHTML = user.email;
-                            }
-                         })
-
-                          // allRegUsers.map(user =>{         
-                          //       var rowNode = document.createElement("tr");
-                          //       var cellNode = document.createElement("td");
-                          //       var textNode = document.createTextNode(user.id + '\t'+ user.firstName +'\t'+user.lastName+'\t'+user.email);
-                          //       cellNode.appendChild(textNode)
-                          //       rowNode.appendChild(cellNode);
-                          //       table.appendChild(rowNode)
-                          //     })
-});
-
-
+          retrive()
         </script>
   </body>
 </html>

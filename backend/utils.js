@@ -1,4 +1,4 @@
-const { error } = require('console')
+
 const fs = require('fs')
 
 function writeDataToFile (filename, content){
@@ -8,7 +8,24 @@ function writeDataToFile (filename, content){
      }
   })
 }
+function getPostData(req) {
+  return new Promise((resolve, reject) => {
+      try {
+          let body = ''
 
+          req.on('data', (chunk) => {
+              body += chunk.toString()
+          })
+
+          req.on('end', () => {
+              resolve(body)
+          })
+      } catch (error) {
+          reject(error)
+      }
+  })
+}
 module.exports = {
-  writeDataToFile
+  writeDataToFile,
+  getPostData
 }

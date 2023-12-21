@@ -2,7 +2,7 @@
 // todo connect with DB get all the user
 let users = require('../data/users')
 const {v4: uuidv4} = require('uuid')
-const {writeDataToFile} = require('../../utils')
+const {writeDataToFile} = require('../utils')
 
 function findAll(){
   return new Promise((resolve , reject)=>{
@@ -12,24 +12,34 @@ function findAll(){
 
 function findUserById(id){
   return new Promise((resolve , reject)=>{
-  // console.log(users)
+   console.log("in finding"+users)
    const user= users.find((e) => e.id === id)
-   console.log("finding the user "+ user)
+  console.log("finding the user "+ user.id)
+  
      resolve(user)
   })
 }
 
-  function create(user){
+function create(user){
     console.log("In data model creating user:"  )
-
     return new Promise((resolve , reject)=>{
-      const newUser = {id :[uuidv4()], ... user}
+      const newUser = {id :uuidv4(), ... user}
       users.push(newUser)
-      
       writeDataToFile('./backend/data/users.json', users)
       resolve(newUser)
     })
 
+}
+
+function remove(id){
+  return new Promise((resolve , reject)=>{
+
+    //  const userIndex = users.find((e) => e.id === id)
+    //  users(userIndex,userIndex,1)
+        users = users.filter((user)=>user.id!==id)
+       writeDataToFile('./backend/data/users.json', users)
+       resolve()
+    })
 }
 // to create
 // to update
@@ -38,5 +48,6 @@ function findUserById(id){
 module.exports = {
   findAll,
   findUserById,
-  create
+  create,
+  remove
 }

@@ -2,11 +2,10 @@
 <html lang="en">
   <head>
     <title>Admin </title>
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/user/css/adminuser.css" />
+    <script type="text/javascript" src="/backend/retriveuser.js"></script>
   </head>
   <body>
-
         <header>
           <h2>Admin</h2>
         </header>
@@ -31,49 +30,8 @@
             <tbody id="allRegUsers">
             </tbody>
           </table>
-      
-          <!-- <p id="adminuser"></p> -->
         </tr>
-                  <script>
-
-                    //await
-                     fetch("http://localhost:5001/backend/data/", {method: "GET"})
-                        .then(res => res.text())
-                        .then(text => {
-                        //console.log("Request complete! response:",text);
-                          const allRegUsers = JSON.parse(text); 
-          
-                        //  for (let i =0 ;i<allRegUsers.length; i++) 
-                        //   for (const [key, value] of Object.entries(allRegUsers[i])) {
-                        //         console.log(`${key}: ${value}`);
-                        //       }
-                          
-                          console.log(allRegUsers)
-
-                       const table = document.getElementById("allRegUsers");
-                          allRegUsers.map(user =>{
-                            let row = table.insertRow();
-                            let id=  row.insertCell(0);
-                            id.innerHTML= user.id
-                            let firstName = row.insertCell(1);
-                            firstName.innerHTML = user.firstName;
-                            let lastName = row.insertCell(2);
-                            lastName.innerHTML = user.lastName;
-                            let email = row.insertCell(3);
-                            email.innerHTML = user.email;
-                          })
-
-                          // allRegUsers.map(user =>{         
-                          //       var rowNode = document.createElement("tr");
-                          //       var cellNode = document.createElement("td");
-                          //       var textNode = document.createTextNode(user.id + '\t'+ user.firstName +'\t'+user.lastName+'\t'+user.email);
-                          //       cellNode.appendChild(textNode)
-                          //       rowNode.appendChild(cellNode);
-                          //       table.appendChild(rowNode)
-                          //     })
-});
-
-                </script>
+            <script>retriveall()</script>
         </section>
 
         <footer>
