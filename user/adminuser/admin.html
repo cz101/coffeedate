@@ -2,9 +2,11 @@
 <html lang="en">
   <head>
     <title>Admin </title>
-    <link rel="stylesheet" type="text/css" href="/user/css/adminuser.css" />
-    <script type="text/javascript" src="/backend/retriveuser.js"></script>
+    <link rel="stylesheet" type="text/css" href="/user/css/user.css" />
+    <script type="text/javascript"   src="/backend/retriveuser.js"></script>
+    <!-- <script type="module"   src="/backend/retriveuser.js"></script> -->
   </head>
+
   <body>
         <header>
           <h2>Admin</h2>
@@ -13,24 +15,33 @@
         <section>
           <nav>
             <ul>
-              <li><a href="#">feature1</a></li>
-              <li><a href="#">feature2</a></li>
-              <li><a href="#">feature3</a></li>
+              <li><a href="#">Random Assign</a></li>
+              <li><a href="#">FCFS(first come first serve)</a></li>
+              <li><a href="#"></a></li>
             </ul>
           </nav>
 
           <table  class="table table-bordered table-sm" >
             <thead>
               <tr>
+                <th>Admin Action</th>
                 <th>UserID</th>
                 <th>FirstName</th>
                 <th>LastName</th>
                 <th>Email</th>
+                <th>Gender</th>
+                <th>Dep</th>
+                <th>Team</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>StartTime</th>
+                <th>EndTime</th>
+              </tr> 
             </thead>
             <tbody id="allRegUsers">
             </tbody>
           </table>
-        </tr>
+     
             <script>retriveall()</script>
         </section>
 

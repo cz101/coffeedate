@@ -1,0 +1,37 @@
+
+dist/
+node_modules/
+package-lock.json
+
+*.seed
+*.log
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+tmp
+
+
+# API keys and secrets
+.env
+
+# Dependency directory
+node_modules
+
+# Editors
+.idea
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+
+# VSCode specific
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace

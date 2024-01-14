@@ -1,43 +1,56 @@
-function retrive(){
-fetch("http://localhost:5001/backend/data/", {method: "GET"})
-.then(res => res.text())
-.then(text => {
-// console.log("Request complete! response:",text);
-  const allRegUsers = JSON.parse(text); 
- // const table = document.getElementById("coffeedate");
- let username='test1'
-  displayuser(allRegUsers, "coffeedate",username) 
-})
+
+// client JS 
+const retrive =() => {
+   fetch("http://localhost:5001/backend/data/", {method: "GET"})
+    .then(res => res.text())
+    .then(text => {
+      console.log(" Download users complete! users are \n:",text);
+      const allRegUsers = JSON.parse(text); 
+      let username='1' // to do need dynamic
+      displayuser(allRegUsers, "coffeedate", username) 
+   })
 }
 
-function retriveall(){
+const retriveall=() => {
    fetch("http://localhost:5001/backend/data/", {method: "GET"})
    .then(res => res.text())
    .then(text => {
      const allRegUsers = JSON.parse(text); 
+     // console.log("the length : " + allRegUsers.length)
      const username=''
-    displayuser(allRegUsers, "allRegUsers",username) 
+    displayuser(allRegUsers, "allRegUsers", username) 
 })}
 
-function displayuser(users, tablename, username){
-   const usertable = document.getElementById(tablename);
+const displayuser = (users, tableName, userName) => {
+   const userTable = document.getElementById(tableName);
    users.map(user =>{
-       if (!username ||  (user.firstName===username))
+      console.log("the user firsName :" + user.firstName +" : " +userName)
+      let row = userTable.insertRow();
+       if (!userName ){
+         let modifyMethod =  row.insertCell(0);
+         modifyMethod.innerHTML ="<button onclick=deleteUser('" + user.id + "')>Delete</button>"
+         let i = 1
+         for (key in user){
+          if (user.hasOwnProperty(key) && user[key]!==null){ 
+            row.insertCell(i).innerHTML = user[key]
+            i++
+         }}
+      }
+      else if (user.firstName === userName)
       {
-         let row = usertable.insertRow();
-         let id=  row.insertCell(0);
-         id.innerHTML= user.id
-         let firstName = row.insertCell(1);
-         firstName.innerHTML = user.firstName;
-         let lastName = row.insertCell(2);
-         lastName.innerHTML = user.lastName;
-         let email = row.insertCell(3);
-         email.innerHTML = user.email;}
+         console.log("the user is :" + user.firstName)
+         let i = 0
+         for (key in user){
+          if (user.hasOwnProperty(key) && user[key]!==null){ 
+            row.insertCell(i).innerHTML = user[key]
+            i++
+         }}
+       }
    })
-        return usertable
-}
+        return userTable
+};
 
-function displayusertest (users){
+const displayusertest = (users) => {
    return   users.map(user =>{         
                   var rowNode = document.createElement("tr");
                   var cellNode = document.createElement("td");
@@ -47,3 +60,21 @@ function displayusertest (users){
                   table.appendChild(rowNode)
          })
    }
+
+const deleteUser = (id) => {
+   // let td = event.target.parentNode
+   // let tr = td.parentNode; // the row to be removed
+   // tr.parentNode.removeChild(tr)
+
+   fetch(`http://localhost:5001/user/employee/${id}`, {method: "DELETE"})
+   .then(res => res.text())
+   .then(text => {
+     const allRegUsers = JSON.parse(text); 
+     return allRegUsers
+})
+
+   retriveall()
+   // checking why it is not auto refresing???
+}   
+
+

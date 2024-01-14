@@ -1,34 +1,33 @@
 let Users = require('../models/userModel')
 const path = require('path');
-const formidable = require ('formidable') // dealing the request data format in
+const formidable = require ('formidable') // lib easily parsing the form data 
 const fs= require('fs')
-const {getPostData} = require("../utils")
+// const {getPostData} = require("../utils")
 
- // taking care of file types
+ // handling care of file types
  const mimeTypes = {
-   "html": "text/html",
-    "css": "text/css",
-    "js ": "text/javascript",
-    "json": "application/json",
+   ".html": "text/html",
+   ".js ": "text/javascript",
+   //".js ": "module",
+   ".css": "text/css",
+   ".json": "application/json",
  }
  const getContentType = (url) => {
-
-  let contentType = 'text/html';
-  const extname = path.extname(url);
+  let contentType = 'text/html'; // default type
+  const extensionName = path.extname(url); // Returns the file extension of a path
   for (let key in mimeTypes) {
-    if (mimeTypes.hasOwnProperty(key)) {
-      if (extname === key) {
+      if (extensionName === key) {
         contentType = mimeTypes[key];
       }
-    }
   }
   return contentType;
+
 };
 
-async function getAllUsers(req,res){
+ const getAllUsers = async (req,res)=>{
   try {
     const fileType = getContentType(req.url)
-    console.log("request file content type is :" +fileType)
+    // console.log("request file content type is :" +fileType)
     res.writeHead(200, {'Content-Type':`${fileType}`})
     fs.readFile('user/adminuser/admin.html', (error, html)=>{
       if(error){
@@ -42,34 +41,33 @@ async function getAllUsers(req,res){
     })
 }
   catch(error){
-    console.log("There is an error on get users"+(error))
+    console.log("There is an error on get all users"+(error))
   }
 }
 // get a user
 // Route /user/profile/id
-async function getUserById(req, res, id){
+ const getUserById = async (req, res) => {
   try {
+    const id = req.url.split('/')[3]
     const user = await Users.findUserById(id)
-    // console.log("user id is: " + id)
-    // console.log("user is: "+ JSON.stringify(user))
-    if (!user) {
-        res.writeHead(404)
-        res.end(JSON.stringify({Message : "No such user registered"}))
-
-    }
-    else {
-    res.writeHead(200, {'Content-Type':'text/html'})
-    fs.readFile('user/employee/userprofile.html', (error, html)=>{
-      if(error){
-        res.writeHead(404)
-        res.write('Error : File Not Found'+ error)
+     console.log("look for user :" + JSON.stringify(user))
+    if (user) {
+      res.writeHead(200, {'Content-Type':'text/html'})
+      fs.readFile('user/employee/userprofile.html', (error, html)=>{
+        if(error){
+          res.writeHead(404)
+          res.write('Error : File Not Found'+ error)
+        }
+        else{
+          res.write(html)
+        }
+        res.end()
       }
-      else{
-        res.write(html)
-      }
-      res.end()
-    }
-  )
+    )
+  }
+   else { 
+    res.writeHead(404)
+    res.end(JSON.stringify({Message : "No such user registered"}))
 }}
   catch(error){
     console.log("There is an error on get users"+(error))
@@ -78,25 +76,23 @@ async function getUserById(req, res, id){
 }
 // create a user 
 
-async function createrUser(req, res, form){
+ const createUser = async (req, res, form) =>{
   try {
   
      form.parse(req,   async function (error, fields, files){
          if(error){
             console.log(error.messge)
-            return ;
+           // return ;
          }
          console.log(JSON.stringify(fields))
 
-        let reguser= checkinput(fields)
+         let reguser= checkinput(fields)
         const newUser =  await Users.create(fields)
         res.writeHead(200,{'Content-Type': 'application/json'})
         res.write("done with regisgter\n");
-        return res.end(JSON.stringify(newUser))
+        res.end()
+        //return res.end(JSON.stringify(newUser))
          })
-
-  
-
   }
   catch(error){
     console.log("There is an error add the user"+(error))
@@ -104,7 +100,7 @@ async function createrUser(req, res, form){
 
 }
 
-async function createNewUser(req, res){
+ const createNewUser = async(req, res) =>{
   try {
     console.log("creating")
     let body =  await getPostData(req)
@@ -124,11 +120,11 @@ async function createNewUser(req, res){
 
 }
 
-async function deleteUser(req, res, id){
+ const deleteUser = async(req, res, id) =>{
   try {
-    console.log("deleting")
+    console.log("deleting user")
     const user = await Users.findUserById(id)
-    console.log(user)
+   // console.log(user)
     if (!user) {
         res.writeHead(404)
         res.end(JSON.stringify({Message : "No such user registered"}))
@@ -137,8 +133,6 @@ async function deleteUser(req, res, id){
       await Users.remove(id)
       res.writeHead(200,{'Content-Type': 'application/json'})
       res.end(JSON.stringify({message:`Product ${id} removed`}))
-     
-      
       res.end()
     }
 
@@ -149,7 +143,73 @@ async function deleteUser(req, res, id){
 
 }
 
-function createPage (reg,res){
+const registNewuser = (req,res) => {
+  try {
+      res.writeHead( 200, {'Content-Type':'text/html'})
+      fs.readFile('user/userregister.html', (error, html)=>{
+        if(error){
+          res.writeHead(404)
+          res.write('Error : File Not Found')
+        }
+        else{
+
+          res.write(html)
+        }
+        res.end()
+  })}
+  catch(error){
+    console.log("There is an error on register users"+(error))
+  }
+
+}
+
+const getCssFile = (req,res) => {
+
+  const fileType = getContentType(req.url)
+  // const extensionName = path.extname(req.url); // Returns the file extension of a path
+  // console.log("ex ====>" + extensionName + ':'+ `${fileType}`)
+  // let checkingFiles = [
+  //   'user/css/user.css',
+  //   'user/css/userregister.css',
+  //   'backend/retriveuser.js'
+  // ]
+  // let processedfile = checkingFiles.map((e)=>{
+  //   if (e.includes(extensionName))
+  //   return e
+  // }).toString()
+  // console.log('checking ==>'+processedfile)
+
+  res.writeHead(200, {'Content-Type':`${fileType}`})
+
+  fs.readFile('user/css/user.css', (error, data)=>{
+    if(error){
+      res.writeHead(404)
+      res.write('Error : File Not Found')
+    }
+    else{          
+      res.write(data)
+    }        
+    res.end();
+  })
+}
+
+const getJSFile = (req,res) => {
+
+  res.writeHead(200, {'Content-Type': 'javascript'}); 
+  fs.readFile('backend/retriveuser.js', (error, data)=>{
+    if(error){
+      res.writeHead(404)
+      res.write('Error : File Not Found')
+    }
+    else{          
+      res.write(data)
+    }        
+    res.end();
+  })
+}
+
+// to do try to use generic function to create pages
+const  createPage = (reg,res) => {
   try {
     const fileType = getContentType(req.url)
     console.log("request file content type is :" +fileType)
@@ -170,19 +230,29 @@ function createPage (reg,res){
   }
 }
 
-function checkinput (payload){
+const checkinput = (payload) => {
   let user = new Map()
   for (const [key, value] of Object.entries(payload)) {
     console.log(`${key}: ${value}`);
    // user.set(`${key}`, `${value}`) 
      }
   return user ;
- }
+}
+
+// to do assigning the date
+const randomAssign= ( ) =>{
+  let assignuser=''
+  console.log("random assgin")
+ return assignuser
+}
 
 module.exports = {
   getAllUsers,
   getUserById,
-  createrUser,
+  createUser,
   createNewUser,
-  deleteUser
+  deleteUser,
+  registNewuser,
+  getCssFile,
+  getJSFile
 }

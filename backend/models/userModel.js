@@ -1,7 +1,8 @@
-
 // todo connect with DB get all the user
-let users = require('../data/users')
-const {v4: uuidv4} = require('uuid')
+// this is using markup of database
+
+let users = require('../data/users.json')
+const {v4: uuidv4} = require('uuid') // genereate unique id 
 const {writeDataToFile} = require('../utils')
 
 function findAll(){
@@ -11,12 +12,11 @@ function findAll(){
 }
 
 function findUserById(id){
+  console.log("in findUserById "+ id)
   return new Promise((resolve , reject)=>{
-   console.log("in finding"+users)
    const user= users.find((e) => e.id === id)
-  console.log("finding the user "+ user.id)
-  
-     resolve(user)
+    console.log("found the user "+ user.id)
+   resolve(user)
   })
 }
 
@@ -33,17 +33,12 @@ function create(user){
 
 function remove(id){
   return new Promise((resolve , reject)=>{
-
-    //  const userIndex = users.find((e) => e.id === id)
-    //  users(userIndex,userIndex,1)
         users = users.filter((user)=>user.id!==id)
        writeDataToFile('./backend/data/users.json', users)
        resolve()
     })
 }
-// to create
-// to update
-// to delete 
+// to do update
 
 module.exports = {
   findAll,
