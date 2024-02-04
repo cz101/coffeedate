@@ -1,54 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <title>Admin </title>
+    <title>Admin</title>
     <link rel="stylesheet" type="text/css" href="/user/css/user.css" />
-    <script type="text/javascript"   src="/backend/retriveuser.js"></script>
+    <script type="text/javascript" src="/backend/retriveuser.js"></script>
     <!-- <script type="module"   src="/backend/retriveuser.js"></script> -->
   </head>
 
   <body>
-        <header>
-          <h2>Admin</h2>
-        </header>
+    <header>
+      <h2>Admin</h2>
+    </header>
 
-        <section>
-          <nav>
-            <ul>
-              <li><a href="#">Random Assign</a></li>
-              <li><a href="#">FCFS(first come first serve)</a></li>
-              <li><a href="#"></a></li>
-            </ul>
-          </nav>
+    <section>
+      <nav>
+        <ul>
+          <li><a href="#">Random Assign</a></li>
+          <li><a href="#">FCFS(first come first serve)</a></li>
+          <li><a href="#"></a></li>
+        </ul>
+      </nav>
 
-          <table  class="table table-bordered table-sm" >
-            <thead>
-              <tr>
-                <th>Admin Action</th>
-                <th>UserID</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Dep</th>
-                <th>Team</th>
-                <th>Location</th>
-                <th>Date</th>
-                <th>StartTime</th>
-                <th>EndTime</th>
-              </tr> 
-            </thead>
-            <tbody id="allRegUsers">
-            </tbody>
-          </table>
-     
-            <script>retriveall()</script>
-        </section>
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th>Admin Action</th>
+            <th>UserID</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Dep</th>
+            <th>Team</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>StartTime</th>
+            <th>EndTime</th>
+          </tr>
+        </thead>
+        <tbody id="allRegUsers"></tbody>
+      </table>
 
-        <footer>
-          <p>Footer</p>
-        </footer>
+      <script>
+        retriveall();
+      </script>
+    </section>
 
+    <footer>
+      <p>Footer</p>
+    </footer>
   </body>
 </html>
-

@@ -1,85 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head >
+  <head>
     <title>User register</title>
     <!-- <link rel="stylesheet" type="text/css" href="/css/userregister.css" /> -->
     <link rel="stylesheet" type="text/css" href="/user/css/user.css" />
   </head>
   <body>
-  
-      <h2>Welcom to Coffee Date</h2>
-      <div class="form-wrap">
-        <form name ="registerform"  id="registerform" action="" method="post">
+    <h2>Welcom to Coffee Date</h2>
+    <div class="form-wrap">
+      <form name="registerform" id="registerform" action="" method="post">
         <table>
           <tr>
-             <td>First Name<td>
-              <td> <input type="text" name="firstName" id='firstName' placeholder="First Name" />  </td>  
+            <td>First Name</td>
+            <td></td>
+            <td><input type="text" name="firstName" id="firstName" placeholder="First Name" /></td>
           </tr>
           <tr>
-            <td><label for ='lastName'>Last Name</label> <td>
-             <td><input type="text" name="lastName" id='lastName' placeholder="Last Name" /> </td>  
-         </tr>
-            <tr>
-              <td><label>Email Adress</label><td>
-              <td><input type="text" name="email" id='email' placeholder="Your Email" /> </td>  
+            <td><label for="lastName">Last Name</label></td>
+            <td></td>
+            <td><input type="text" name="lastName" id="lastName" placeholder="Last Name" /></td>
           </tr>
           <tr>
-            <td> <label for ='gender'>Gender</label><td>
-            <td> <select id="gender" name="gender">
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-              </select> 
-          </td>  
-          </tr>
- 
-          <tr>
-            <td><label for="department">Department You@:</label><td>
-            <td><select id="department" name="department">
-              <option value="Administration">Administration</option>
-              <option value="Consulting">Consulting</option>
-              <option value="Finance">Finance</option>
-              <option value="HR">Human Resouces</option>
-              <option value="Software">Software</option>
-              <option value="Mangement">Mangement</option>
-            </select></td>  
+            <td><label>Email Adress</label></td>
+            <td></td>
+            <td><input type="text" name="email" id="email" placeholder="Your Email" /></td>
           </tr>
           <tr>
-            <td><label for="team">Current Team(Project) You@:</label><td>
-            <td><select id="team" name="teams">
-              <option value="TEP">TEP</option>
-              <option value="TORO">TORO</option>
-              <option value="Demand">Demand</option>
-              <option value="Others">Others</option>
-            </select></td>  
-          </tr>
-
-          <tr>
-            <td> <label for="city">Location  You@:</label><td>
-            <td><select id="city" name="city">
-              <option value="Berlin">Berlin</option>
-              <option value="Munich">Munich</option>
-              <option value="Hamburg">Hamburg</option>
-            </select></td>  
-          </tr>
-
-          <tr>
-            <td><label >Option one</label><td>        
+            <td><label for="gender">Gender</label></td>
+            <td></td>
             <td>
-                <input type="date" title="availableDate" name= "availableDate" id='availableDate'/>
+              <select id="gender" name="gender">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
             </td>
-             <td>
-                 <label >Date Begins </label>        
-                 <input type="time" title="StartingDateTime" name= "StartingDateTime" id='StartingDateTime'/>
-            </td>
-            <td> 
-              <label >Date Ends </label> 
-              <input type="time" title="EndingDateTime" name= "EndingDateTime"  id='EndingDateTime' />
-            </td>  
           </tr>
-        
+
           <tr>
-            <td><button  type="submit"  name="register"> register</button> <td>
-      
+            <td><label for="department">Department You@:</label></td>
+            <td></td>
+            <td>
+              <select id="department" name="department">
+                <option value="Administration">Administration</option>
+                <option value="Consulting">Consulting</option>
+                <option value="Finance">Finance</option>
+                <option value="HR">Human Resouces</option>
+                <option value="Software">Software</option>
+                <option value="Mangement">Mangement</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="team">Current Team(Project) You@:</label></td>
+            <td></td>
+            <td>
+              <select id="team" name="teams">
+                <option value="TEP">TEP</option>
+                <option value="TORO">TORO</option>
+                <option value="Demand">Demand</option>
+                <option value="Others">Others</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="city">Location You@:</label></td>
+            <td></td>
+            <td>
+              <select id="city" name="city">
+                <option value="Berlin">Berlin</option>
+                <option value="Munich">Munich</option>
+                <option value="Hamburg">Hamburg</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td><label>Option one</label></td>
+            <td></td>
+            <td>
+              <input type="date" title="availableDate" name="availableDate" id="availableDate" />
+            </td>
+            <td>
+              <label>Date Begins </label>
+              <input
+                type="time"
+                title="StartingDateTime"
+                name="StartingDateTime"
+                id="StartingDateTime"
+              />
+            </td>
+            <td>
+              <label>Date Ends </label>
+              <input type="time" title="EndingDateTime" name="EndingDateTime" id="EndingDateTime" />
+            </td>
+          </tr>
+
+          <tr>
+            <td><button type="submit" name="register">register</button></td>
+            <td></td>
           </tr>
         </table>
         <!-- <button  type="submit"  name="register" onClick="registerUser()" > register</button> -->
@@ -96,10 +115,7 @@
                 console.log(dataObject);
           })}
         </script>   -->
-    </form>
-
-      </div>
-      
-   
+      </form>
+    </div>
   </body>
 </html>

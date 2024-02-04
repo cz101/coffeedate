@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 async function connectdb() {
-  const {MongoClient} = require('mongodb');
+  const { MongoClient } = require('mongodb');
   const dbuser = process.env.dbusername;
   const password = process.env.dbpassword;
   const connectionStr = `mongodb+srv://${dbuser}:${password}@cluster0.ups2ujp.mongodb.net/`;
@@ -15,33 +15,33 @@ async function connectdb() {
       await client.connect();
       //await  listDatabases(client);
 
-     // db = connect( 'mongodb+srv://${dbuser}:${password}@cluster0.ups2ujp.mongodb.net/coffeedateuser' );
-  
+      // db = connect( 'mongodb+srv://${dbuser}:${password}@cluster0.ups2ujp.mongodb.net/coffeedateuser' );
+
       const db = client.db(dbName);
       const col = db.collection("user");
-    //   let personDocument = {
-    //     "name": { "first": "Alan1", "last": "Turing1" },
-    //     "birth": new Date(1912, 5, 23), // May 23, 1912                                                                                                                                 
-    //     "death": new Date(1954, 5, 7),  // May 7, 1954                                                                                                                                  
-    //     "contribs": [ "Turing machine", "Turing test", "Turingery" ],
-    //     "views": 1250000
-    // }
-   // const p = await col.insertOne(personDocument);
-    const filter = { "Lastname": "Zeng" };
-    const document = await col.findOne(filter);
-    console.log("Document found:\n" + JSON.stringify(document));
+      //   let personDocument = {
+      //     "name": { "first": "Alan1", "last": "Turing1" },
+      //     "birth": new Date(1912, 5, 23), // May 23, 1912                                                                                                                                 
+      //     "death": new Date(1954, 5, 7),  // May 7, 1954                                                                                                                                  
+      //     "contribs": [ "Turing machine", "Turing test", "Turingery" ],
+      //     "views": 1250000
+      // }
+      // const p = await col.insertOne(personDocument);
+      const filter = { "Lastname": "Zeng" };
+      const document = await col.findOne(filter);
+      console.log("Document found:\n" + JSON.stringify(document));
       // Make the appropriate DB calls
       //
 
-  } catch (e) {
+    } catch (e) {
       console.error(e.stack);
-  } finally {
+    } finally {
       await client.close();
       console.log("the db connection is closed");
-  }
+    }
 
   }
- 
+
 }
 
 //  async function listDatabases(client){

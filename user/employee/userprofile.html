@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>user profile</title>
@@ -6,48 +6,46 @@
     <script type="text/javascript" src="/backend/retriveuser.js"></script>
   </head>
   <body>
+    <header>
+      <h2>username</h2>
+    </header>
 
-        <header>
-          <h2>username</h2>
-        </header>
+    <section>
+      <nav>
+        <ul>
+          <li><a href="/user/userregister">Coffee Date Register</a></li>
+          <li><a href="#">feature2</a></li>
+          <li><a href="#">feature3</a></li>
+        </ul>
+      </nav>
 
-        <section>
-          <nav>
-            <ul>
-              <li><a href="/user/userregister">Coffee Date Register</a></li>
-              <li><a href="#">feature2</a></li>
-              <li><a href="#">feature3</a></li>
-            </ul>
-          </nav>
+      <table class="table table-bordered table-sm">
+        <h3>My CoffeeDate</h3>
+        <thead>
+          <tr>
+            <th>UserID</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Dep</th>
+            <th>Team</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>StartTime</th>
+            <th>EndTime</th>
+          </tr>
+        </thead>
+        <tbody id="coffeedate"></tbody>
+      </table>
+    </section>
 
-          <table  class="table table-bordered table-sm" >
-            <h3>My CoffeeDate</h3>
-            <thead>
-              <tr>
-                <th>UserID</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Dep</th>
-                <th>Team</th>
-                <th>Location</th>
-                <th>Date</th>
-                <th>StartTime</th>
-                <th>EndTime</th>
-                </tr>
-            </thead>
-            <tbody id="coffeedate">
-            </tbody>
-          </table>
-        </section>
-
-        <footer>
-          <p>Footer</p>
-        </footer>
-        <script>
-          retrive()
-        </script>
+    <footer>
+      <p>Footer</p>
+    </footer>
+    <script>
+      console.log(window.location.hrefL);
+      retrive();
+    </script>
   </body>
 </html>
-

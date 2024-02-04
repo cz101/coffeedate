@@ -1,17 +1,17 @@
-const http = require ('http')
-const fs= require('fs')
+const http = require('http')
+const fs = require('fs')
 const url = require('url')
-const util= require('util')
+const util = require('util')
 
 //const StringDecoder = require('string_decoder').StringDecoder // dealing the request as data object
 require('dotenv').config();
 // import connectdb from './databaseconnector'
 // //require (connectdb) from './databaseconnector';
 
-const formidable = require ('formidable') // dealing the request data format in
+const formidable = require('formidable') // dealing the request data format in
 
 const port = 3000
-const server = http.createServer((req, res) =>{
+const server = http.createServer((req, res) => {
 
   let parsedURL = url.parse(req.url, true);
   let path = parsedURL.pathname;
@@ -24,55 +24,57 @@ const server = http.createServer((req, res) =>{
   // let decoder = new StringDecoder('utf-8')
 
 
- // req.on("data", function() {
-  console.log("got some data : ");    
-  if (req.method.toLowerCase() ==='get' && path ==="user/adminuser"){
-      res.writeHead(200, {'Content-Type':'text/html'})
-      fs.readFile('user/adminuser/admin.html', (error, html)=>{
-        if(error){
-          res.writeHead(404)
-          res.write('Error : File Not Found'+error)
-        }
-        else{
-          res.write(html)
-        }
-        res.end()
-      })}
-    else if (req.method.toLowerCase() ==='get' && path ==="user/userregister"){
-    res.writeHead( 200, {'Content-Type':'text/html'})
-    fs.readFile('user/userregister.html', (error, html)=>{
-      if(error){
+  // req.on("data", function() {
+  console.log("got some data : ");
+  if (req.method.toLowerCase() === 'get' && path === "user/adminuser") {
+    res.writeHead(200, { 'Content-Type': 'text/html' })
+    fs.readFile('user/adminuser/admin.html', (error, html) => {
+      if (error) {
+        res.writeHead(404)
+        res.write('Error : File Not Found' + error)
+      }
+      else {
+        res.write(html)
+      }
+      res.end()
+    })
+  }
+  else if (req.method.toLowerCase() === 'get' && path === "user/userregister") {
+    res.writeHead(200, { 'Content-Type': 'text/html' })
+    fs.readFile('user/userregister.html', (error, html) => {
+      if (error) {
         res.writeHead(404)
         res.write('Error : File Not Found')
       }
-      else{
+      else {
 
         res.write(html)
       }
       res.end()
-    })}
-  else if(req.method.toLowerCase()==='post'){
-      let form =  new formidable.IncomingForm()
-      console.log(form)
-      form.parse(req, function (error, fields, files){
-          if(error){
-             console.log(error.messge)
-             return ;
-          }
-          res.writeHead(200, {'Content-Type':'text/plain'})
-          //console.log(util.inspect({fields:fields[lastName],files:files}))
-          // let payload =  JSON.parse(JSON.stringify(fields))
-        // console.log(regUser(JSON.parse(JSON.stringify(fields))))
-        //  connectdb();
-      
-       // addUser(JSON.parse(JSON.stringify(fields)))
-         res.end(util.inspect({fields:fields,files:files}))
-        //  res.write("done with regisgter");
-        //  res.end()
-       })
-    }
+    })
+  }
+  else if (req.method.toLowerCase() === 'post') {
+    let form = new formidable.IncomingForm()
+    console.log(form)
+    form.parse(req, function (error, fields, files) {
+      if (error) {
+        console.log(error.messge)
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': 'text/plain' })
+      //console.log(util.inspect({fields:fields[lastName],files:files}))
+      // let payload =  JSON.parse(JSON.stringify(fields))
+      // console.log(regUser(JSON.parse(JSON.stringify(fields))))
+      //  connectdb();
 
-  });
+      // addUser(JSON.parse(JSON.stringify(fields)))
+      res.end(util.inspect({ fields: fields, files: files }))
+      //  res.write("done with regisgter");
+      //  res.end()
+    })
+  }
+
+});
 //   req.on("end", function() {
 //     //buffer += decoder.end()
 //     let route = typeof routes[path] !== "undefined" ? routes[path] : routes["notFound"];
@@ -91,22 +93,22 @@ const server = http.createServer((req, res) =>{
 //   });
 // })
 
-server.listen(port, (error)=>{
-   if (error) {
-       console.log('something is wrong ', error)
-   } else {
-       console.log('server is listening on port: ' + port )
-   }
+server.listen(port, (error) => {
+  if (error) {
+    console.log('something is wrong ', error)
+  } else {
+    console.log('server is listening on port: ' + port)
+  }
 })
 
- function regUser(payload){
+function regUser(payload) {
   let user = new Map()
   for (const [key, value] of Object.entries(payload)) {
     // console.log(`${key}: ${value}`);
-    user.set(`${key}`, `${value}`) 
-     }
-  return user ;
- }
+    user.set(`${key}`, `${value}`)
+  }
+  return user;
+}
 
 // const routes ={
 //   'adminuser/admin': function(data,res){
@@ -123,23 +125,23 @@ server.listen(port, (error)=>{
 //   },
 //   'user/userprofile.html': function(data,res){
 //     console.log("1 ==>"+(data.payload))
-    // if (data.method.toLowerCase() ==='get'){
-    // res.writeHead( 200, {'Content-Type':'text/html'})
-    // fs.readFile('user/userregister.html', (error , html)=>{
-    //   if(error){
-    //     res.writeHead(404)
-    //     res.write('Error : File Not Found')
-    //   }
-    //   else{
-    //     res.write(html)
-    //   }
-    //   res.end()
-    // })}
+// if (data.method.toLowerCase() ==='get'){
+// res.writeHead( 200, {'Content-Type':'text/html'})
+// fs.readFile('user/userregister.html', (error , html)=>{
+//   if(error){
+//     res.writeHead(404)
+//     res.write('Error : File Not Found')
+//   }
+//   else{
+//     res.write(html)
+//   }
+//   res.end()
+// })}
 //     else if(data.method.toLowerCase()==='post'){
 //       console.log("post the data : "+ (data.payload))
-  
+
 //       let form =  new formidable.IncomingForm('')
-       
+
 //        form.parse(data.incomingReq, function (error, fields, files){
 //            if(error){
 //               console.log(error.messge)
@@ -147,7 +149,7 @@ server.listen(port, (error)=>{
 //            }
 //            res.writeHead(200, {'Content-Type':'text/plain'})
 //            //console.log(util.inspect({fields:fields[lastName],files:files}))
-   
+
 //            let info = {
 //                "firstName": fields['firstName']}
 //             console.log("---------------------------"+info)   
@@ -158,7 +160,7 @@ server.listen(port, (error)=>{
 //     //  // console.log(stringify(form))
 //     //   writeHead(200, {'Content-Type':'text/plain'})
 //     //       //console.log(util.inspect({fields:fields[lastName],files:files}))
-  
+
 //     //       let info = {
 //     //           "firstName": fields['firstName']}
 //     //        console.log(info)   
@@ -166,9 +168,9 @@ server.listen(port, (error)=>{
 //     //     //res.end()
 //     //    )
 //     // }
-  
-  
-  
+
+
+
 //   }},
 //   'notFound': function(data, res) {
 //     //this one gets called if no route matches
@@ -184,10 +186,10 @@ server.listen(port, (error)=>{
 //     res.end("\n");
 //   }
 // }
- async function addUser(  payload ) {
+async function addUser(payload) {
 
 
-  const {MongoClient} = require('mongodb');
+  const { MongoClient } = require('mongodb');
   const dbuser = process.env.dbusername;
   const password = process.env.dbpassword;
   const connectionStr = `mongodb+srv://${dbuser}:${password}@cluster0.ups2ujp.mongodb.net/`;
@@ -196,28 +198,28 @@ server.listen(port, (error)=>{
 
   let user = new Map()
   for (const [key, value] of Object.entries(payload)) {
-       console.log(`${key}: ${value}`);
-    user.set(`${key}`, `${value}`) 
-     }
+    console.log(`${key}: ${value}`);
+    user.set(`${key}`, `${value}`)
+  }
 
 
   try {
-      // Connect to the MongoDB cluster
+    // Connect to the MongoDB cluster
 
-      const db = client.db(dbName);
-      const col = db.collection("user");
-      const p = await col.insertOne(user);
-      const filter = { "lastName": "Zeng" };
-      const document = await col.findOne(filter);
-      console.log("Document found:\n" + JSON.stringify(document));
+    const db = client.db(dbName);
+    const col = db.collection("user");
+    const p = await col.insertOne(user);
+    const filter = { "lastName": "Zeng" };
+    const document = await col.findOne(filter);
+    console.log("Document found:\n" + JSON.stringify(document));
 
-       //db = connect (mongodb+srv://${dbuser}:${password}@cluster0.ups2ujp.mongodb.net/)
-      // Make the appropriate DB calls
+    //db = connect (mongodb+srv://${dbuser}:${password}@cluster0.ups2ujp.mongodb.net/)
+    // Make the appropriate DB calls
 
 
   } catch (e) {
-      console.error(e);
+    console.error(e);
   } finally {
-      await client.close();
+    await client.close();
   }
 }
