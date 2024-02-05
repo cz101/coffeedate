@@ -1,19 +1,5 @@
 [
   {
-    "id": "821259fa-4a4f-4f8b-9112-f97081ffee28",
-    "firstName": "Chao",
-    "lastName": "Zeng",
-    "email": "chaowow@gmail.com",
-    "gender": "M",
-    "department": "Administration",
-    "teams": "TEP",
-    "city": "Berlin",
-    "availableDate": "2024-02-04",
-    "StartingDateTime": "19:27",
-    "EndingDateTime": "20:27",
-    "register": ""
-  },
-  {
     "id": "85047b69-a443-4583-8636-a6476b03488d",
     "firstName": "John",
     "lastName": "Smith",
@@ -25,6 +11,20 @@
     "availableDate": "2024-02-07",
     "StartingDateTime": "09:29",
     "EndingDateTime": "23:29",
+    "register": ""
+  },
+  {
+    "id": "7814f950-5c33-408a-ac68-26e78158fdf1",
+    "firstName": "Chao2",
+    "lastName": "Zeng2",
+    "email": "chaowow@gmail.com",
+    "gender": "M",
+    "department": "Administration",
+    "teams": "TEP",
+    "city": "Berlin",
+    "availableDate": "",
+    "StartingDateTime": "",
+    "EndingDateTime": "",
     "register": ""
   }
 ]

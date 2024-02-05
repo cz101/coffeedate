@@ -1,14 +1,27 @@
-
-// client JS 
-const retrive = () => {
+// client end JS 
+const retrive = (uid) => {
    fetch("http://localhost:5001/backend/data/", { method: "GET" })
       .then(res => res.text())
       .then(text => {
-         console.log(" Download users complete! users are \n:", text);
-         const allRegUsers = JSON.parse(text);
-         let username = '1' // to do need dynamic
-         displayuser(allRegUsers, "coffeedate", username)
+         const user = JSON.parse(text).find(e => e.id === uid);
+         const userInforTable = "userProfileTable"
+         displayUserProfile(user, userInforTable)
+         //displayCoffeeDates(allRegUsers, "coffeedate", user)
       })
+}
+const displayUserProfile = (user, tableName) => {
+   const userProfileTable = document.getElementById(tableName);
+   let row = userProfileTable.insertRow();
+   let i = 0
+   if (user) {
+      for (key in user) {
+         if (user.hasOwnProperty(key) && user[key] !== null) {
+            row.insertCell(i).innerHTML = user[key]
+         }
+         i++
+      }
+   }
+   return userProfileTable
 }
 
 const retriveall = () => {

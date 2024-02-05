@@ -18,6 +18,25 @@
           <li><a href="#">feature3</a></li>
         </ul>
       </nav>
+      <table class="table table-bordered table-sm">
+        <h3>User Info</h3>
+        <thead>
+          <tr>
+            <th>UserID</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Dep</th>
+            <th>Team</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>StartTime</th>
+            <th>EndTime</th>
+          </tr>
+        </thead>
+        <tbody id="userProfileTable"></tbody>
+      </table>
 
       <table class="table table-bordered table-sm">
         <h3>My CoffeeDate</h3>
@@ -44,8 +63,8 @@
       <p>Footer</p>
     </footer>
     <script>
-      console.log(window.location.hrefL);
-      retrive();
+      const uid = window.location.pathname.split("/")[3];
+      retrive(uid);
     </script>
   </body>
 </html>
