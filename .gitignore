@@ -11,7 +11,8 @@ package-lock.json
 *.gz
 *.swp
 tmp
-
+usersbk.json
+users.json
 
 # API keys and secrets
 .env

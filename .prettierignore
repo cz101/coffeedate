@@ -1,12 +1,9 @@
-# RapidReponse specific
+# specific
 .cache/
-.rapidresponse/logs/
-.rapidresponse/dumps/
 dist/
 node_modules/
 
 lib-cov
-*.seed
 *.log
 *.csv
 *.dat
@@ -61,8 +58,6 @@ yarn.lock
 # Further ignores
 package-lock.json
 
-# jest test results
-/testing/*
 
 src/types/*
 global.d.ts
