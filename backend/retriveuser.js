@@ -29,7 +29,7 @@ const retriveall = () => {
       .then(res => res.text())
       .then(text => {
          const allRegUsers = JSON.parse(text);
-         // console.log("the length : " + allRegUsers.length)
+         console.log("the length : " + allRegUsers.length)
          const username = ''
          displayuser(allRegUsers, "allRegUsers", username)
       })
@@ -38,7 +38,7 @@ const retriveall = () => {
 const displayuser = (users, tableName, userName) => {
    const userTable = document.getElementById(tableName);
    users.map(user => {
-      console.log("the user firsName :" + user.firstName + " : " + userName)
+      // console.log("the user firsName :" + user.firstName + " : " + userName)
       let row = userTable.insertRow();
       if (!userName) {
          let modifyMethod = row.insertCell(0);
@@ -80,15 +80,18 @@ const deleteUser = (id) => {
    // let td = event.target.parentNode
    // let tr = td.parentNode; // the row to be removed
    // tr.parentNode.removeChild(tr)
+   //fetch("http://localhost:5001/backend/data/", { method: "GET" })
 
+   console.log("starting 1")
    fetch(`http://localhost:5001/user/employee/${id}`, { method: "DELETE" })
       .then(res => res.text())
       .then(text => {
          const allRegUsers = JSON.parse(text);
+         console.log(allRegUsers)
          return allRegUsers
       })
 
-   retriveall()
+   // retriveall()
    // checking why it is not auto refresing???
 }
 

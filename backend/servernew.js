@@ -48,7 +48,9 @@ const server = http.createServer((req, res) => {
     req.url.match(/\/user\/employee\/([a-z0-9\-]+)/)
   ) {
     const id = req.url.split("/")[3];
-    //console.log("the id to be delete "+ id)
+
+    console.log("starting 2")
+    console.log("the id to be delete " + id)
     deleteUser(req, res, id);
   }
 });

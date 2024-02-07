@@ -13,11 +13,13 @@ function findAll() {
 }
 
 function findUserById(id) {
-  console.log("Data Modele : findUserById " + id)
+  console.log("Data Model : findUserById called , looking for :" + id)
   return new Promise((resolve, reject) => {
     const user = users.find((e) => e.id === id)
-    console.log("found the user " + user.id)
-    resolve(user)
+    if (user) { resolve(user) }
+    else {
+      reject(" : No such user");
+    }
   })
 }
 
@@ -36,7 +38,7 @@ function remove(id) {
   return new Promise((resolve, reject) => {
     users = users.filter((user) => user.id !== id)
     writeDataToFile('./backend/data/users.json', users)
-    resolve()
+    resolve(users)
   })
 }
 // to do update

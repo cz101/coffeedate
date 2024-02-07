@@ -27,7 +27,6 @@ const getContentType = (url) => {
 const getAllUsers = async (req, res) => {
   try {
     const fileType = getContentType(req.url)
-    // console.log("request file content type is :" +fileType)
     res.writeHead(200, { 'Content-Type': `${fileType}` })
     fs.readFile('user/adminuser/admin.html', (error, html) => {
       if (error) {
@@ -50,7 +49,6 @@ const getUserById = async (req, res) => {
   try {
     const id = req.url.split('/')[3]
     const user = await Users.findUserById(id)
-    console.log("look for the user :" + JSON.stringify(user.id))
     if (user) {
       res.writeHead(200, { 'Content-Type': 'text/html' })
       fs.readFile('user/employee/userprofile.html', (error, html) => {
@@ -67,11 +65,12 @@ const getUserById = async (req, res) => {
     }
     else {
       res.writeHead(404)
-      res.end(JSON.stringify({ Message: "No such user registered" }))
+      res.end("--> No such user registered") // why not this line  
     }
   }
   catch (error) {
-    console.log("There is an error on get users" + (error))
+    res.writeHead(404)
+    res.end("No such a userregistered")
   }
 
 }
@@ -121,6 +120,8 @@ const createNewUser = async (req, res) => {
 
 const deleteUser = async (req, res, id) => {
   try {
+
+    console.log("starting 3")
     console.log("deleting user")
     const user = await Users.findUserById(id)
     // console.log(user)
@@ -130,14 +131,16 @@ const deleteUser = async (req, res, id) => {
     }
     else {
       await Users.remove(id)
-      res.writeHead(200, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify({ message: `Product ${id} removed` }))
-      res.end()
+      // res.writeHead(200, { 'Content-Type': 'application/json' })
+      // res.end(JSON.stringify({ message: `User ${id} is deleted from user` }))
+      // res.end()
+      //getAllUsers(req, res)
+      // window.location.reload();
     }
 
   }
   catch (error) {
-    console.log("There is an error on get users" + (error))
+    res.end("There is an error on delete user")
   }
 
 }
