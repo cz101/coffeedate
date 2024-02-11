@@ -24,7 +24,7 @@ const getContentType = (url) => {
   return contentType;
 };
 
-const getAllUsers = async (req, res) => {
+const getAllUsersUI = (req, res) => {
   try {
     const fileType = getContentType(req.url)
     res.writeHead(200, { 'Content-Type': `${fileType}` })
@@ -36,11 +36,22 @@ const getAllUsers = async (req, res) => {
       else {
         res.write(html)
       }
-      res.end()
+      res.end(JSON.stringify(allRegUser))
     })
   }
   catch (error) {
-    console.log("There is an error on get all users" + (error))
+    console.log("UI : There is an error on get all users" + (error))
+  }
+}
+const getAllUsers = async (req, res) => {
+  try {
+    const fileType = getContentType(req.url)
+    let allRegUser = await Users.findAll()
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify(allRegUser))
+  }
+  catch (error) {
+    console.log("API : There is an error on get all users:" + (error))
   }
 }
 // get a user
@@ -130,12 +141,24 @@ const deleteUser = async (req, res, id) => {
       res.end(JSON.stringify({ Message: "No such user registered" }))
     }
     else {
-      await Users.remove(id)
+      let leftUser = await Users.remove(id)
       // res.writeHead(200, { 'Content-Type': 'application/json' })
       // res.end(JSON.stringify({ message: `User ${id} is deleted from user` }))
       // res.end()
-      //getAllUsers(req, res)
+      //  getAllUsers(req, res)
       // window.location.reload();
+      // res.writeHead(200, { 'Content-Type': `${fileType}` })
+      // fs.readFile('user/adminuser/admin.html', (error, html) => {
+      //   if (error) {
+      //     res.writeHead(404)
+      //     res.write('Error : File Not Found' + error)
+      //   }
+      //   else {
+      //     res.write(html)
+      //   }
+      //   res.end("the end ")
+      // })
+      console.log(leftUser)
     }
 
   }
@@ -257,5 +280,6 @@ module.exports = {
   deleteUser,
   registNewuser,
   getCssFile,
-  getJSFile
+  getJSFile,
+  getAllUsersUI
 }

@@ -9,6 +9,7 @@ const {
   registNewuser,
   getCssFile,
   getJSFile,
+  getAllUsersUI
 } = require("../backend/controller/userController");
 const user = require("./data/users");
 
@@ -18,9 +19,12 @@ const server = http.createServer((req, res) => {
 
   // Static routing
   if (req.url && req.method.toLowerCase() === "get") {
-    if (req.url === "/user/adminuser") {
+    if (req.url === "/user/api/alluser") {
       getAllUsers(req, res);
-    } else if (req.url.match(/\/user\/employee\/([a-z0-9\-]+)/)) {
+    } else if (req.url === "/user/adminuser") {
+      getAllUsersUI(req, res);
+    }
+    else if (req.url.match(/\/user\/employee\/([a-z0-9\-]+)/)) {
       const id = req.url.split("/")[3];
       console.log("user id is " + id);
       getUserById(req, res);

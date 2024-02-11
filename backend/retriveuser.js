@@ -25,7 +25,7 @@ const displayUserProfile = (user, tableName) => {
 }
 
 const retriveall = () => {
-   fetch("http://localhost:5001/backend/data/", { method: "GET" })
+   fetch("http://localhost:5001/user/api/alluser", { method: "GET" })
       .then(res => res.text())
       .then(text => {
          const allRegUsers = JSON.parse(text);
@@ -34,6 +34,21 @@ const retriveall = () => {
          displayuser(allRegUsers, "allRegUsers", username)
       })
 }
+
+const retriveallUser = (allRegUsers) => {
+
+   displayuser(allRegUsers, "allRegUsers", username)
+   // fetch("http://localhost:5001/backend/data/", { method: "GET" })
+   //    .then(res => res.text())
+   //    .then(text => {
+   //       const allRegUsers = JSON.parse(text);
+   //       console.log("the length : " + allRegUsers.length)
+   //       const username = ''
+   //       displayuser(allRegUsers, "allRegUsers", username)
+   //    })
+}
+
+
 
 const displayuser = (users, tableName, userName) => {
    const userTable = document.getElementById(tableName);
@@ -77,22 +92,20 @@ const displayusertest = (users) => {
 }
 
 const deleteUser = (id) => {
-   // let td = event.target.parentNode
-   // let tr = td.parentNode; // the row to be removed
-   // tr.parentNode.removeChild(tr)
+   let td = event.target.parentNode
+   let tr = td.parentNode; // the row to be removed
+   tr.parentNode.removeChild(tr)
    //fetch("http://localhost:5001/backend/data/", { method: "GET" })
 
    console.log("starting 1")
    fetch(`http://localhost:5001/user/employee/${id}`, { method: "DELETE" })
-      .then(res => res.text())
-      .then(text => {
-         const allRegUsers = JSON.parse(text);
-         console.log(allRegUsers)
-         return allRegUsers
-      })
+   // .then((res) => { retriveall(), res.text() })
+   // .then(text => {
+   //    const allRegUsers = JSON.parse(text);
+   //    console.log(allRegUsers)
 
-   // retriveall()
-   // checking why it is not auto refresing???
+   //    return allRegUsers
+   // })
 }
 
 

@@ -38,6 +38,8 @@ function remove(id) {
   return new Promise((resolve, reject) => {
     users = users.filter((user) => user.id !== id)
     writeDataToFile('./backend/data/users.json', users)
+    console.log("removed this user from data source")
+    console.log(users)
     resolve(users)
   })
 }
