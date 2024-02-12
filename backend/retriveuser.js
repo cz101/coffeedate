@@ -1,14 +1,33 @@
-// client end JS 
+// client API Call
 const retrive = (uid) => {
-   fetch("http://localhost:5001/backend/data/", { method: "GET" })
+   fetch(`http://localhost:5001/user/api/${uid}`, { method: "GET" })
       .then(res => res.text())
       .then(text => {
-         const user = JSON.parse(text).find(e => e.id === uid);
+         const theUser = JSON.parse(text)
          const userInforTable = "userProfileTable"
-         displayUserProfile(user, userInforTable)
-         //displayCoffeeDates(allRegUsers, "coffeedate", user)
+         displayUserProfile(theUser, userInforTable)
       })
 }
+
+const retriveall = () => {
+   fetch("http://localhost:5001/user/api/alluser", { method: "GET" })
+      .then(res => res.text())
+      .then(text => {
+         const allRegUsers = JSON.parse(text);
+         const username = ''
+         displayuser(allRegUsers, "allRegUsers", username)
+      })
+}
+
+const deleteUser = (id) => {
+   let td = event.target.parentNode
+   let tr = td.parentNode; // the row to be removed
+   tr.parentNode.removeChild(tr)
+
+   fetch(`http://localhost:5001/user/api/${id}`, { method: "DELETE" })
+}
+
+
 const displayUserProfile = (user, tableName) => {
    const userProfileTable = document.getElementById(tableName);
    let row = userProfileTable.insertRow();
@@ -23,31 +42,6 @@ const displayUserProfile = (user, tableName) => {
    }
    return userProfileTable
 }
-
-const retriveall = () => {
-   fetch("http://localhost:5001/user/api/alluser", { method: "GET" })
-      .then(res => res.text())
-      .then(text => {
-         const allRegUsers = JSON.parse(text);
-         console.log("the length : " + allRegUsers.length)
-         const username = ''
-         displayuser(allRegUsers, "allRegUsers", username)
-      })
-}
-
-const retriveallUser = (allRegUsers) => {
-
-   displayuser(allRegUsers, "allRegUsers", username)
-   // fetch("http://localhost:5001/backend/data/", { method: "GET" })
-   //    .then(res => res.text())
-   //    .then(text => {
-   //       const allRegUsers = JSON.parse(text);
-   //       console.log("the length : " + allRegUsers.length)
-   //       const username = ''
-   //       displayuser(allRegUsers, "allRegUsers", username)
-   //    })
-}
-
 
 
 const displayuser = (users, tableName, userName) => {
@@ -80,6 +74,7 @@ const displayuser = (users, tableName, userName) => {
    return userTable
 };
 
+/*
 const displayusertest = (users) => {
    return users.map(user => {
       var rowNode = document.createElement("tr");
@@ -90,22 +85,7 @@ const displayusertest = (users) => {
       table.appendChild(rowNode)
    })
 }
+*/
 
-const deleteUser = (id) => {
-   let td = event.target.parentNode
-   let tr = td.parentNode; // the row to be removed
-   tr.parentNode.removeChild(tr)
-   //fetch("http://localhost:5001/backend/data/", { method: "GET" })
-
-   console.log("starting 1")
-   fetch(`http://localhost:5001/user/employee/${id}`, { method: "DELETE" })
-   // .then((res) => { retriveall(), res.text() })
-   // .then(text => {
-   //    const allRegUsers = JSON.parse(text);
-   //    console.log(allRegUsers)
-
-   //    return allRegUsers
-   // })
-}
 
 

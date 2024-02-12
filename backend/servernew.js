@@ -9,7 +9,8 @@ const {
   registNewuser,
   getCssFile,
   getJSFile,
-  getAllUsersUI
+  adminUser,
+  employeeProfile,
 } = require("../backend/controller/userController");
 const user = require("./data/users");
 
@@ -19,44 +20,23 @@ const server = http.createServer((req, res) => {
 
   // Static routing
   if (req.url && req.method.toLowerCase() === "get") {
-    if (req.url === "/user/api/alluser") {
-      getAllUsers(req, res);
-    } else if (req.url === "/user/adminuser") {
-      getAllUsersUI(req, res);
-    }
-    else if (req.url.match(/\/user\/employee\/([a-z0-9\-]+)/)) {
-      const id = req.url.split("/")[3];
-      console.log("user id is " + id);
-      getUserById(req, res);
-    } else if (req.url === "/user/userregister") {
-      registNewuser(req, res);
-    } else if (req.url === "/user/css/user.css") {
-      getCssFile(req, res);
-    } else if (req.url === "/backend/retriveuser.js") {
-      getJSFile(req, res);
-    } else if (req.url === "/backend/data/") {
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(user));
-    } else {
+    if (req.url === "/user/api/alluser") { getAllUsers(req, res); }
+    else if (req.url.match(/\/user\/api\/([a-z0-9\-]+)/)) { getUserById(req, res); }
+    else if (req.url === "/user/adminuser") { adminUser(req, res); }
+    else if (req.url.match(/\/user\/employee\/([a-z0-9\-]+)/)) { employeeProfile(req, res); }
+    else if (req.url === "/user/userregister") { registNewuser(req, res); }
+    else if (req.url === "/user/css/user.css") { getCssFile(req, res); }
+    else if (req.url === "/backend/retriveuser.js") { getJSFile(req, res); }
+    else {
       res.writeHead(404);
       res.write("Error: the current page is not avaible");
       res.end();
     }
   } else if (req.url === "/user/userregister" && req.method.toLowerCase() === "post") {
-    // console.log("creating the new user>")
     let form = new formidable.IncomingForm();
     createUser(req, res, form);
     //createNewUser(req,res)
-  } else if (
-    req.method.toLowerCase() === "delete" &&
-    req.url.match(/\/user\/employee\/([a-z0-9\-]+)/)
-  ) {
-    const id = req.url.split("/")[3];
-
-    console.log("starting 2")
-    console.log("the id to be delete " + id)
-    deleteUser(req, res, id);
-  }
+  } else if (req.method.toLowerCase() === "delete" && req.url.match(/\/user\/api\/([a-z0-9\-]+)/)) { deleteUser(req, res); }
 });
 
 const port = process.env.port || 5001;

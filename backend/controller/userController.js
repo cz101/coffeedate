@@ -24,7 +24,7 @@ const getContentType = (url) => {
   return contentType;
 };
 
-const getAllUsersUI = (req, res) => {
+const adminUser = (req, res) => {
   try {
     const fileType = getContentType(req.url)
     res.writeHead(200, { 'Content-Type': `${fileType}` })
@@ -36,27 +36,14 @@ const getAllUsersUI = (req, res) => {
       else {
         res.write(html)
       }
-      res.end(JSON.stringify(allRegUser))
+      res.end()
     })
   }
   catch (error) {
     console.log("UI : There is an error on get all users" + (error))
   }
 }
-const getAllUsers = async (req, res) => {
-  try {
-    const fileType = getContentType(req.url)
-    let allRegUser = await Users.findAll()
-    res.writeHead(200, { 'Content-Type': 'application/json' })
-    res.end(JSON.stringify(allRegUser))
-  }
-  catch (error) {
-    console.log("API : There is an error on get all users:" + (error))
-  }
-}
-// get a user
-// Route /user/profile/id
-const getUserById = async (req, res) => {
+const employeeProfile = async (req, res) => {
   try {
     const id = req.url.split('/')[3]
     const user = await Users.findUserById(id)
@@ -85,11 +72,37 @@ const getUserById = async (req, res) => {
   }
 
 }
-// create a user 
+
+
+/* API calls */
+const getAllUsers = async (req, res) => {
+  try {
+    const fileType = getContentType(req.url)
+    let allRegUser = await Users.findAll()
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify(allRegUser))
+  }
+  catch (error) {
+    console.log("API : There is an error on get all users:" + (error))
+  }
+}
+// Route /user/profile/id
+const getUserById = async (req, res) => {
+  try {
+    const id = req.url.split('/')[3]
+    const user = await Users.findUserById(id)
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify(user))
+  }
+  catch (error) {
+    res.writeHead(404)
+    res.end("API: No such an registereduser")
+  }
+
+}
 
 const createUser = async (req, res, form) => {
   try {
-
     form.parse(req, async function (error, fields, files) {
       if (error) {
         console.log(error.messge)
@@ -129,38 +142,17 @@ const createNewUser = async (req, res) => {
 
 }
 
-const deleteUser = async (req, res, id) => {
+const deleteUser = async (req, res) => {
   try {
-
-    console.log("starting 3")
-    console.log("deleting user")
+    const id = req.url.split("/")[3];
     const user = await Users.findUserById(id)
-    // console.log(user)
     if (!user) {
       res.writeHead(404)
       res.end(JSON.stringify({ Message: "No such user registered" }))
     }
     else {
-      let leftUser = await Users.remove(id)
-      // res.writeHead(200, { 'Content-Type': 'application/json' })
-      // res.end(JSON.stringify({ message: `User ${id} is deleted from user` }))
-      // res.end()
-      //  getAllUsers(req, res)
-      // window.location.reload();
-      // res.writeHead(200, { 'Content-Type': `${fileType}` })
-      // fs.readFile('user/adminuser/admin.html', (error, html) => {
-      //   if (error) {
-      //     res.writeHead(404)
-      //     res.write('Error : File Not Found' + error)
-      //   }
-      //   else {
-      //     res.write(html)
-      //   }
-      //   res.end("the end ")
-      // })
-      console.log(leftUser)
+      await Users.remove(id)
     }
-
   }
   catch (error) {
     res.end("There is an error on delete user")
@@ -281,5 +273,6 @@ module.exports = {
   registNewuser,
   getCssFile,
   getJSFile,
-  getAllUsersUI
+  adminUser,
+  employeeProfile
 }
