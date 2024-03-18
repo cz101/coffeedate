@@ -43,11 +43,19 @@ function remove(id) {
     resolve(users)
   })
 }
-// to do update
-
+function update(id, usrPayload) {
+  return new Promise((resolve, reject) => {
+    const usrIndex = users.findIndex((user) => user.id = id)
+    users[usrIndex] = { id, ...usrPayload }
+    writeDataToFile('./backend/data/users.json', users)
+    console.log(users)
+    resolve(users)
+  })
+}
 module.exports = {
   findAll,
   findUserById,
   create,
-  remove
+  remove,
+  update
 }

@@ -11,6 +11,7 @@ const {
   getJSFile,
   adminUser,
   employeeProfile,
+  editUser,
 } = require("../backend/controller/userController");
 const user = require("./data/users");
 
@@ -36,22 +37,14 @@ const server = http.createServer((req, res) => {
     let form = new formidable.IncomingForm();
     createUser(req, res, form);
     //createNewUser(req,res)
+  }
+  else if (req.method.toLowerCase() === "put" && req.url.match(/\/user\/api\/([a-z0-9\-]+)/)) {
+    editUser(req, res);
   } else if (req.method.toLowerCase() === "delete" && req.url.match(/\/user\/api\/([a-z0-9\-]+)/)) { deleteUser(req, res); }
 });
 
 const port = process.env.port || 5001;
 
 server.listen(port, () => console.log(`server is currently running on the port : ${port}`));
-
-function dynamicRoutePath(incomingPath) {
-  const dpath = "";
-
-  const parsedURL = url.parse(incomingPath, true);
-  dpath = parsedURL.pathname;
-  dpath = path.replace(/^\/+|\/+$/g, "");
-  console.log(dpath);
-
-  return dpath;
-}
 
 module.exports = server;

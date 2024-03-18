@@ -25,9 +25,16 @@ const deleteUser = (id) => {
    tr.parentNode.removeChild(tr)
 
    fetch(`http://localhost:5001/user/api/${id}`, { method: "DELETE" })
+
 }
 
+const editUser = (id) => {
 
+   fetch(`http://localhost:5001/user/api/${id}`, { method: "PUT" })
+      .then(res => res.text())
+
+
+}
 const displayUserProfile = (user, tableName) => {
    const userProfileTable = document.getElementById(tableName);
    let row = userProfileTable.insertRow();
@@ -51,7 +58,9 @@ const displayuser = (users, tableName, userName) => {
       let row = userTable.insertRow();
       if (!userName) {
          let modifyMethod = row.insertCell(0);
-         modifyMethod.innerHTML = "<button onclick=deleteUser('" + user.id + "')>Delete</button>"
+
+         // modifyMethod.innerHTML = "<button onclick=deleteUser('" + user.id + "')>Delete</button>"
+         modifyMethod.innerHTML = "<button onclick=editUser('" + user.id + "')>Edit</button>"
          let i = 1
          for (key in user) {
             if (user.hasOwnProperty(key) && user[key] !== null) {
