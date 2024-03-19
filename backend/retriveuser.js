@@ -1,5 +1,5 @@
 // client API Call
-const retrive = (uid) => {
+const retrive = async (uid) => {
    fetch(`http://localhost:5001/user/api/${uid}`, { method: "GET" })
       .then(res => res.text())
       .then(text => {
@@ -9,7 +9,7 @@ const retrive = (uid) => {
       })
 }
 
-const retriveall = () => {
+const retriveall = async () => {
    fetch("http://localhost:5001/user/api/alluser", { method: "GET" })
       .then(res => res.text())
       .then(text => {
@@ -19,7 +19,7 @@ const retriveall = () => {
       })
 }
 
-const deleteUser = (id) => {
+const deleteUser = async (id) => {
    let td = event.target.parentNode
    let tr = td.parentNode; // the row to be removed
    tr.parentNode.removeChild(tr)
@@ -29,11 +29,8 @@ const deleteUser = (id) => {
 }
 
 const editUser = (id) => {
-
    fetch(`http://localhost:5001/user/api/${id}`, { method: "PUT" })
       .then(res => res.text())
-
-
 }
 const displayUserProfile = (user, tableName) => {
    const userProfileTable = document.getElementById(tableName);
@@ -43,6 +40,7 @@ const displayUserProfile = (user, tableName) => {
       for (key in user) {
          if (user.hasOwnProperty(key) && user[key] !== null) {
             row.insertCell(i).innerHTML = user[key]
+            row.insertCell(i).innerHTML
          }
          i++
       }
@@ -96,5 +94,49 @@ const displayusertest = (users) => {
 }
 */
 
+
+
+async function loadDataToTable(tableName) {
+
+   await fetch("http://localhost:5001/user/api/alluser", { method: "GET" })
+      .then(res => res.text())
+      .then(text => {
+         const allRegUsers = JSON.parse(text)
+         console.log(allRegUsers)
+         //tableBoday.innerHTML = ""
+         if (allRegUsers.length > 0) {
+
+            var temp = "";
+            allRegUsers.forEach((user) => {
+               temp += "<tr>";
+               temp += "<td>" + user.id + "</td>";
+               temp += "<td contenteditable=\"true\"><input type=\"text\"" + "value=" + user.email + ">" + "</td>";
+               temp += "<td>" + user.firstName + "</td></tr>";
+            });
+            document.getElementById(tableName).innerHTML = temp;
+         }
+      })
+
+
+
+}
+
+function poptable(allRegUsers, tableName) {
+   const table = document.getElementById(tableName);
+   const tableBoday = table.querySelector("tbody")
+
+   for (const user of allRegUsers) {
+      console.log(user)
+      const rowElement = document.createComment("tr")
+
+      for (key in user) {
+         const cellElement = document.createComment("td")
+         cellElement.textContent = user[key]
+         rowElement.appendChild(cellElement)
+      }
+
+   }
+
+}
 
 
