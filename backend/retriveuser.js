@@ -28,10 +28,10 @@ const deleteUser = async (id) => {
 
 }
 
-const editUser = (id) => {
-   fetch(`http://localhost:5001/user/api/${id}`, { method: "PUT" })
-      .then(res => res.text())
-}
+// const editUser = (id) => {
+//    fetch(`http://localhost:5001/user/api/${id}`, { method: "PUT" })
+//       .then(res => res.text())
+// }
 const displayUserProfile = (user, tableName) => {
    const userProfileTable = document.getElementById(tableName);
    let row = userProfileTable.insertRow();
@@ -57,8 +57,8 @@ const displayuser = (users, tableName, userName) => {
       if (!userName) {
          let modifyMethod = row.insertCell(0);
 
-         // modifyMethod.innerHTML = "<button onclick=deleteUser('" + user.id + "')>Delete</button>"
-         modifyMethod.innerHTML = "<button onclick=editUser('" + user.id + "')>Edit</button>"
+         modifyMethod.innerHTML = "<button onclick=deleteUser('" + user.id + "')>Delete</button>  <button onclick=editUser('" + user.id + "')>Edit</button>"
+         //modifyMethod.innerHTML = "<button onclick=editUser('" + user.id + "')>Edit</button>"
          let i = 1
          for (key in user) {
             if (user.hasOwnProperty(key) && user[key] !== null) {
@@ -121,20 +121,55 @@ async function loadDataToTable(tableName) {
 
 }
 
-function poptable(allRegUsers, tableName) {
-   const table = document.getElementById(tableName);
-   const tableBoday = table.querySelector("tbody")
+function editUser(id) {
+   const table = document.getElementById("allRegUsers");
+   //console.log(id + ":" + tableName)
+   //const rows = table.getElementsByTagName("tr")
+   const cells = table.getElementsByTagName("td")
 
-   for (const user of allRegUsers) {
-      console.log(user)
-      const rowElement = document.createComment("tr")
+   console.log("the cell totall length is :" + cells.length)
 
-      for (key in user) {
-         const cellElement = document.createComment("td")
-         cellElement.textContent = user[key]
-         rowElement.appendChild(cellElement)
+
+   for (var i = 0; i < cells.length; i++) {
+
+      console.log("the i :" + i)
+      if ((i !== 0 && i !== 1) && (i % 13 !== 0) && (i % 13 !== 1)) {
+
+         cells[i].onclick = function () {
+            console.log("the cell i click right now :" + i)
+            if (this.hasAttribute('data-clicked')) { return; }
+
+            this.setAttribute('data-clicked', 'yes')
+            this.setAttribute('data-text', this.innerHTML)
+            let input = document.createElement('input')
+            input.setAttribute('type', 'text');
+            input.value = this.innerHTML;
+            input.style.backgroundColor = "LightYellow"
+
+            input.onblur = function () {
+               let td = input.parentElement
+               let orig_text = input.parentElement.getAttribute('data-text')
+               let current_text = this.value
+
+
+               if (orig_text !== current_text) {
+                  td.removeAttribute('data-clicked');
+                  td.removeAttribute('data-text');
+                  td.innerHTML = current_text;
+               }
+               else {
+                  td.removeAttribute('data-clicked');
+                  td.removeAttribute('data-text');
+                  td.innerHTML = orig_text;
+
+               }
+
+            }
+            this.innerHTML = ''
+            this.append(input)
+            this.firstElementChild.select()
+         }
       }
-
    }
 
 }
