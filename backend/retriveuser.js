@@ -29,8 +29,8 @@ const deleteUser = async (id) => {
 }
 
 // const editUser = (id) => {
-//    fetch(`http://localhost:5001/user/api/${id}`, { method: "PUT" })
-//       .then(res => res.text())
+// fetch(`http://localhost:5001/user/api/${id}`, { method: "PUT" })
+// .then(res => res.text())
 // }
 const displayUserProfile = (user, tableName) => {
    const userProfileTable = document.getElementById(tableName);
@@ -54,10 +54,12 @@ const displayuser = (users, tableName, userName) => {
    users.map(user => {
       // console.log("the user firsName :" + user.firstName + " : " + userName)
       let row = userTable.insertRow();
+
       if (!userName) {
          let modifyMethod = row.insertCell(0);
 
-         modifyMethod.innerHTML = "<button onclick=deleteUser('" + user.id + "')>Delete</button>  <button onclick=editUser('" + user.id + "')>Edit</button>"
+         modifyMethod.innerHTML = "<button id=\"deleteUserButton\" onclick=deleteUser('" + user.id + "')>Delete</button> <button id='" + user.id + "' onclick=modifiedUser('" + user.id + "')>Edit</button>"
+         // modifyMethod.innerHTML = "<button id=\"deleteUserButton\" onclick=deleteUser('" + user.id + "')>Delete</button> "
          //modifyMethod.innerHTML = "<button onclick=editUser('" + user.id + "')>Edit</button>"
          let i = 1
          for (key in user) {
@@ -83,14 +85,14 @@ const displayuser = (users, tableName, userName) => {
 
 /*
 const displayusertest = (users) => {
-   return users.map(user => {
-      var rowNode = document.createElement("tr");
-      var cellNode = document.createElement("td");
-      var textNode = document.createTextNode(user.id + '\t' + user.firstName + '\t' + user.lastName + '\t' + user.email);
-      cellNode.appendChild(textNode)
-      rowNode.appendChild(cellNode);
-      table.appendChild(rowNode)
-   })
+return users.map(user => {
+var rowNode = document.createElement("tr");
+var cellNode = document.createElement("td");
+var textNode = document.createTextNode(user.id + '\t' + user.firstName + '\t' + user.lastName + '\t' + user.email);
+cellNode.appendChild(textNode)
+rowNode.appendChild(cellNode);
+table.appendChild(rowNode)
+})
 }
 */
 
@@ -121,57 +123,126 @@ async function loadDataToTable(tableName) {
 
 }
 
-function editUser(id) {
+const actviateEditMode = () => {
+   console.log(`Im In Edit Mode Now`)
+   let edidUserById = false
+   let usrModifyData = [];
    const table = document.getElementById("allRegUsers");
-   //console.log(id + ":" + tableName)
-   //const rows = table.getElementsByTagName("tr")
-   const cells = table.getElementsByTagName("td")
+   const rows = table.getElementsByTagName("tr")
+   // const cells = table.getElementsByTagName("td")
 
-   console.log("the cell totall length is :" + cells.length)
+   if (document.getElementById("actviateEditMode").innerHTML === "Activiate Edit Mode") {
+      document.getElementById("actviateEditMode").innerHTML = "In Edit Mode"
+      edidUserById = true
 
-
-   for (var i = 0; i < cells.length; i++) {
-
-      console.log("the i :" + i)
-      if ((i !== 0 && i !== 1) && (i % 13 !== 0) && (i % 13 !== 1)) {
-
-         cells[i].onclick = function () {
-            console.log("the cell i click right now :" + i)
-            if (this.hasAttribute('data-clicked')) { return; }
-
-            this.setAttribute('data-clicked', 'yes')
-            this.setAttribute('data-text', this.innerHTML)
-            let input = document.createElement('input')
-            input.setAttribute('type', 'text');
-            input.value = this.innerHTML;
-            input.style.backgroundColor = "LightYellow"
-
-            input.onblur = function () {
-               let td = input.parentElement
-               let orig_text = input.parentElement.getAttribute('data-text')
-               let current_text = this.value
-
-
-               if (orig_text !== current_text) {
-                  td.removeAttribute('data-clicked');
-                  td.removeAttribute('data-text');
-                  td.innerHTML = current_text;
+      for (let j = 0; j < rows.length; j++) {
+         let rowcells = table.rows[j].cells;
+         rows[j].onclick = function () {
+            console.log(`im clicking row ${j}`)
+            for (var i = 0; i < rowcells.length; i++) {
+               console.log("the id :" + "finding " + edidUserById)
+               if ((i !== 0 && i !== 1) && edidUserById) {
+                  rowcells[i].onclick = function () {
+                     this.setAttribute('contenteditable', 'true')
+                     this.style.backgroundColor = "LightYellow"
+                  }
                }
-               else {
-                  td.removeAttribute('data-clicked');
-                  td.removeAttribute('data-text');
-                  td.innerHTML = orig_text;
-
-               }
-
             }
-            this.innerHTML = ''
-            this.append(input)
-            this.firstElementChild.select()
+         }
+
+      }
+
+   }
+   else {
+      document.getElementById("actviateEditMode").innerHTML = "Activiate Edit Mode"
+      for (let r = 0, n = table.rows.length; r < n; r++) {
+         for (let c = 0, m = table.rows[r].cells.length; c < m; c++) {
+            if (c !== 0 && c !== 1) {
+               usrModifyData.push(table.rows[r].cells[c].innerHTML)
+               table.rows[r].cells[c].style.backgroundColor = "white "
+            }
          }
       }
    }
-
+   console.log(usrModifyData)
 }
 
 
+function modifiedUser(id) {
+
+   const table = document.getElementById("allRegUsers");
+   const rows = table.getElementsByTagName("tr")
+   const cells = table.getElementsByTagName("td")
+   let jsonString
+   let usrHeader = ["id", "firstName", "lastName", "email", "gender", "department", "teams", "city", "availableDate", "StartingDateTime", "EndingDateTime"]
+   let usrModifyData = [];
+   let dataPayload = {};
+   for (let j = 0; j < rows.length; j++) {
+      let rowcells = table.rows[j].cells;
+      let edidUserById = false
+      //let usrModifyData = [];
+
+      rows[j].onclick = function () {
+         console.log(`im clicking row ${j}`)
+         console.log("the id :" + id + "finding " + edidUserById)
+         for (var i = 0; i < rowcells.length; i++) {
+            if (document.getElementById(id).innerHTML === "Edit" && id === rowcells[1].innerHTML) {
+               edidUserById = true
+               document.getElementById(id).innerHTML = "Save"
+               if ((i !== 0 && i !== 1) && edidUserById) {
+                  rowcells[i].onclick = function () {
+                     this.setAttribute('contenteditable', 'true')
+                     //this.style.backgroundColor = "LightYellow" 
+                  }
+               }
+            }
+            else if (document.getElementById(id).innerHTML === "Save" && id === rowcells[1].innerHTML) {
+               document.getElementById(id).innerHTML = "Edit"
+            }
+
+         }
+         for (var i = 2; i < rowcells.length; i++) { usrModifyData.push(rowcells[i].innerHTML) }
+         console.log("the user data :" + JSON.stringify(usrModifyData))
+         jsonString = JSON.stringify(usrModifyData);
+
+
+
+         for (let i = 0; i < usrHeader.length; i++) {
+            dataPayload[usrHeader[i]] = usrModifyData[i];
+         }
+         console.log("the user data :" + JSON.stringify(dataPayload))
+      }
+   }
+   // fetch(`http://localhost:5001/user/api/${id}`, { method: "DELETE" })
+   fetch(`http://localhost:5001/user/api/${id}`, { method: "PUT" })
+      .then(response => {
+         if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+         }
+         return response.json();
+      })
+      .then(updatedData => {
+         console.log('Data updated:', updatedData);
+      })
+      .catch(error => {
+         console.log("'Error updating data:'" + error);
+      });
+
+      .then(res => res.text())
+      .then(text => {
+         const allRegUsers = JSON.parse(text);
+         const username = ''
+         displayuser(allRegUsers, "allRegUsers", username)
+      })
+
+}
+
+function checkID(row, id) {
+   let rowcells = table.row.cells;
+   for (let i = 0; i < rowcells.length; i++)
+
+      console.log(rowcells[i].value)
+   return (rowcells[i].value === id) ? true : false
+
+
+}

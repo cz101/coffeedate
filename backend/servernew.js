@@ -39,6 +39,7 @@ const server = http.createServer((req, res) => {
     //createNewUser(req,res)
   }
   else if (req.method.toLowerCase() === "put" && req.url.match(/\/user\/api\/([a-z0-9\-]+)/)) {
+    console.log("here is put call");
     editUser(req, res);
   } else if (req.method.toLowerCase() === "delete" && req.url.match(/\/user\/api\/([a-z0-9\-]+)/)) { deleteUser(req, res); }
 });

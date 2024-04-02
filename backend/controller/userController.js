@@ -2,7 +2,7 @@ let Users = require('../models/userModel')
 const path = require('path');
 const formidable = require('formidable') // lib easily parsing the form data 
 const fs = require('fs')
-// const {getPostData} = require("../utils")
+const { getPostData } = require("../utils")
 
 // handling care of file types
 const mimeTypes = {
@@ -160,6 +160,27 @@ const deleteUser = async (req, res) => {
 
 }
 
+
+const editUser = async (req, res) => {
+  try {
+    console.log("here is the req" + JSON.stringify(req))
+    const id = req.url.split("/")[3];
+    const user = await Users.findUserById(id)
+    if (!user) {
+      res.writeHead(404)
+      res.end(JSON.stringify({ Message: "No such user registered" }))
+    }
+    else {
+      console.log("here is the payload")
+      // await Users.update(id, req.payload)
+    }
+  }
+  catch (error) {
+    res.end("There is an error on edit the user")
+  }
+
+}
+
 const registNewuser = (req, res) => {
   try {
     res.writeHead(200, { 'Content-Type': 'text/html' })
@@ -274,5 +295,6 @@ module.exports = {
   getCssFile,
   getJSFile,
   adminUser,
-  employeeProfile
+  employeeProfile,
+  editUser
 }
